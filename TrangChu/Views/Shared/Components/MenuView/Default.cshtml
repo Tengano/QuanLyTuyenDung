@@ -1,0 +1,45 @@
+@model List<TrangChu.Models.tblMenu>
+
+@{
+    void RenderMenuItem(TrangChu.Models.tblMenu item)
+    {
+        if (item == null) return;
+        
+        var hasChildren = item.Children != null && item.Children.Any();
+        <li class="@(hasChildren ? "dropdown" : "")">
+            @if (hasChildren && item.Children != null)
+            {
+                <a href="@(item.url ?? "#")">
+                    <span>@(item.name ?? "")</span> 
+                    <i class="bi bi-chevron-down toggle-dropdown"></i>
+                </a>
+                <ul>
+                    @foreach (var child in item.Children)
+                    {
+                        if (child != null)
+                        {
+                            RenderMenuItem(child);
+                        }
+                    }
+                </ul>
+            }
+            else
+            {
+                <a href="@(item.url ?? "#")">@(item.name ?? "")</a>
+            }
+        </li>
+    }
+}
+
+@if (Model != null && Model.Any())
+{
+    <ul>
+        @foreach (var menuItem in Model)
+        {
+            if (menuItem != null)
+            {
+                RenderMenuItem(menuItem);
+            }
+        }
+    </ul>
+}

@@ -1,0 +1,78 @@
+@using TrangChu.Areas.Admin.Models
+@model IList<AdminMenu>
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Danh sách chức năng</h2>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-1"></i>
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle me-1"></i>
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <p>
+        <a type="button" class="btn btn-success" asp-area="Admin" asp-controller="Menu" asp-action="Create">
+            <i class="bi bi-file-earmark-text me-1"></i>Add New
+        </a>
+    </p>
+
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-12">
+                <div class="card recent-sales overflow-auto">
+                    <div class="card-body mt-4">
+                        <table class="table table-borderless datatable">
+                            <thead>
+                                <tr>
+                                    <th class="col-1 text-center">#</th>
+                                    <th class="col-3 text-center">MenuName</th>
+                                    <th class="col-1 text-center">ControllerName</th>
+                                    <th class="col-1 text-center">OrderBy</th>
+                                    <th class="col-1 text-center">Visible</th>
+                                    <th class="col-3 text-center">Functions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center">@item.AdminMenuID</td>
+                                        <td class="text-start">@item.ItemName</td>
+                                        <td class="text-center">@item.ControllerName</td>
+                                        <td class="text-center">@item.ItemOrder</td>
+                                        <td class="text-center">@item.IsActive</td>
+                                        <td class="text-center">
+                                            <a class="btn btn-warning btn-sm" asp-area="Admin" asp-controller="Menu" asp-action="Edit" asp-route-id="@item.AdminMenuID">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+                                            <a class="btn btn-primary btn-sm" asp-area="Admin" asp-controller="Menu" asp-action="Details" asp-route-id="@item.AdminMenuID">
+                                                <i class="bi bi-info-circle"></i>
+                                            </a>
+                                            <a class="btn btn-danger btn-sm" asp-area="Admin" asp-controller="Menu" asp-action="Delete" asp-route-id="@item.AdminMenuID">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

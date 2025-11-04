@@ -1,0 +1,122 @@
+@using TrangChu.Areas.Admin.Models
+@model AdminMenu
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Chi tiết menu</h2>
+    </div>
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body mt-4">
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label fw-bold">ID:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">@Model.AdminMenuID</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label fw-bold">Tên menu:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">@Model.ItemName</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label fw-bold">Controller:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">@Model.ControllerName</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label fw-bold">Action:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">@Model.ActionName</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label fw-bold">Area:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">@Model.AreaName</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label fw-bold">Cấp độ:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">@Model.ItemLevel</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label fw-bold">Thứ tự:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">@Model.ItemOrder</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label fw-bold">Icon:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">
+                                    @if (!string.IsNullOrEmpty(Model.Icon))
+                                    {
+                                        <i class="bi @Model.Icon"></i>
+                                        <span>@Model.Icon</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label fw-bold">ID Name:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">@Model.IdName</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label fw-bold">Target:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">@Model.ItemTarget</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label fw-bold">Trạng thái:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">
+                                    @if (Model.IsActive == true)
+                                    {
+                                        <span class="badge bg-success">Đang hoạt động</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Không hoạt động</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-12">
+                                <a asp-area="Admin" asp-controller="Menu" asp-action="Edit" asp-route-id="@Model.AdminMenuID" class="btn btn-warning">
+                                    <i class="bi bi-pencil-square me-1"></i>Chỉnh sửa
+                                </a>
+                                <a asp-area="Admin" asp-controller="Menu" asp-action="Index" class="btn btn-secondary">
+                                    <i class="bi bi-arrow-left me-1"></i>Quay lại
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+

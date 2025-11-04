@@ -53,8 +53,16 @@
       </nav>
 
       <div class="d-flex align-items-center gap-3">
-        <a class="btn-login" href="#">Đăng Nhập</a>
-        <a class="btn-register" href="#">Đăng Ký</a>
+        @if (Context.Session.GetInt32("UserId") != null)
+        {
+          <span class="text-white me-2">Xin chào, <strong>@Context.Session.GetString("UserName")</strong></span>
+          <a class="btn-login" asp-controller="Account" asp-action="Logout">Đăng Xuất</a>
+        }
+        else
+        {
+          <a class="btn-login" asp-controller="Account" asp-action="Login">Đăng Nhập</a>
+          <a class="btn-register" asp-controller="Account" asp-action="Register">Đăng Ký</a>
+        }
       </div>
 
     </div>
@@ -84,11 +92,11 @@
         <div class="col-lg-2 col-6 footer-links">
           <h4>Useful Links</h4>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Terms of service</a></li>
-            <li><a href="#">Privacy policy</a></li>
+            <li><a href="/">Trang Chủ</a></li>
+            <li><a href="#">Về Chúng Tôi</a></li>
+            <li><a href="#">Dịch Vụ</a></li>
+            <li><a href="~/assets/html/terms-of-service.html">Điều khoản dịch vụ</a></li>
+            <li><a href="~/assets/html/privacy-policy.html">Chính sách bảo mật</a></li>
           </ul>
         </div>
 
@@ -104,11 +112,10 @@
         </div>
 
         <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
-          <h4>Contact Us</h4>
-          <p>A108 Adam Street</p>
-          <p>New York, NY 535022</p>
-          <p>United States</p>
-          <p class="mt-4"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
+          <h4>Liên Hệ</h4>
+          <p>36 Lê Duẩn</p>
+          <p>Nghệ An, Việt Nam</p>
+          <p class="mt-4"><strong>Phone:</strong> <span>+84 36 36 36 36</span></p>
           <p><strong>Email:</strong> <span>info@example.com</span></p>
         </div>
 
@@ -116,13 +123,9 @@
     </div>
 
     <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">MyWebsite</strong> <span>All Rights Reserved</span></p>
+      <p>© <span>Copyright</span> <span>All Rights Reserved</span></p>
       <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        Designed by <a href="https://www.facebook.com">Nguyễn Xuân Khởi</a>
       </div>
     </div>
 

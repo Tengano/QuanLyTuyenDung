@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TrangChu.Areas.Admin.Models;
 
 namespace TrangChu.Models
 {
@@ -13,6 +14,7 @@ namespace TrangChu.Models
         }
         
         public DbSet<tblMenu> tblMenu { get; set; }
+        public DbSet<AdminMenu> AdminMenu { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

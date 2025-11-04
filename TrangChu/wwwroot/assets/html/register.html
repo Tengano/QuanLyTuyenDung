@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Đăng Ký - Quản Lý Tuyển Dụng</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="../img/favicon.png" rel="icon">
+  <link href="../img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="../css/main.css" rel="stylesheet">
+
+  <!-- Auth CSS File -->
+  <link href="../css/auth.css" rel="stylesheet">
+</head>
+
+<body>
+  <a href="../../" class="back-home">
+    <i class="bi bi-arrow-left"></i>
+    <span>Về Trang Chủ</span>
+  </a>
+
+  <div class="auth-container" data-aos="fade-up" data-aos-duration="800">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">
+          <i class="bi bi-person-plus-fill"></i>
+        </div>
+        <h2>Đăng Ký</h2>
+        <p>Tạo tài khoản mới để bắt đầu hành trình của bạn</p>
+      </div>
+
+      <!-- Alert Messages -->
+      <div id="alertMessage" style="display: none;"></div>
+
+      <form id="registerForm" novalidate>
+        <div class="form-group">
+          <label class="form-label">Họ và tên <span class="required">*</span></label>
+          <input type="text" class="form-control" id="fullName" placeholder="Nhập họ và tên đầy đủ" required>
+          <div class="invalid-feedback">Vui lòng nhập họ và tên</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email <span class="required">*</span></label>
+          <input type="email" class="form-control" id="email" placeholder="example@email.com" required>
+          <div class="invalid-feedback">Vui lòng nhập email hợp lệ</div>
+          <div class="valid-feedback">Email hợp lệ</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Số điện thoại <span class="required">*</span></label>
+          <input type="tel" class="form-control" id="phone" placeholder="0123456789" required>
+          <div class="invalid-feedback">Vui lòng nhập số điện thoại hợp lệ</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Mật khẩu <span class="required">*</span></label>
+          <div class="input-group">
+            <input type="password" class="form-control" id="password" placeholder="Tạo mật khẩu mạnh" required>
+            <i class="bi bi-eye-slash input-group-icon" id="togglePassword"></i>
+          </div>
+          <div class="password-strength">
+            <div class="password-strength-bar" id="passwordStrengthBar"></div>
+          </div>
+          <ul class="password-requirements">
+            <li id="req-length"><i class="bi bi-x-circle"></i> Ít nhất 8 ký tự</li>
+            <li id="req-uppercase"><i class="bi bi-x-circle"></i> Có chữ hoa</li>
+            <li id="req-lowercase"><i class="bi bi-x-circle"></i> Có chữ thường</li>
+            <li id="req-number"><i class="bi bi-x-circle"></i> Có số</li>
+          </ul>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Xác nhận mật khẩu <span class="required">*</span></label>
+          <div class="input-group">
+            <input type="password" class="form-control" id="confirmPassword" placeholder="Nhập lại mật khẩu" required>
+            <i class="bi bi-eye-slash input-group-icon" id="toggleConfirmPassword"></i>
+          </div>
+          <div class="invalid-feedback">Mật khẩu không khớp</div>
+          <div class="valid-feedback">Mật khẩu khớp</div>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+          <label class="form-check-label" for="agreeTerms">
+            Tôi đồng ý với <a href="terms-of-service.html" target="_blank">Điều khoản dịch vụ</a> và <a href="privacy-policy.html" target="_blank">Chính sách bảo mật</a>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-register" id="submitBtn">
+          Đăng Ký
+        </button>
+      </form>
+
+      <div class="divider">Hoặc đăng ký với</div>
+
+      <div class="social-login">
+        <button class="btn-social">
+          <i class="bi bi-google"></i>
+          <span>Google</span>
+        </button>
+        <button class="btn-social">
+          <i class="bi bi-facebook"></i>
+          <span>Facebook</span>
+        </button>
+      </div>
+
+      <div class="auth-footer">
+        <p>Đã có tài khoản? <a href="login.html">Đăng nhập ngay</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vendor JS Files -->
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../vendor/aos/aos.js"></script>
+
+  <!-- Custom JS -->
+  <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 800,
+      once: true
+    });
+
+    // Toggle Password Visibility
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+
+    togglePassword.addEventListener('click', function () {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      this.classList.toggle('bi-eye');
+      this.classList.toggle('bi-eye-slash');
+    });
+
+    toggleConfirmPassword.addEventListener('click', function () {
+      const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      confirmPasswordInput.setAttribute('type', type);
+      this.classList.toggle('bi-eye');
+      this.classList.toggle('bi-eye-slash');
+    });
+
+    // Password Strength Checker
+    const passwordStrengthBar = document.getElementById('passwordStrengthBar');
+    const requirements = {
+      length: document.getElementById('req-length'),
+      uppercase: document.getElementById('req-uppercase'),
+      lowercase: document.getElementById('req-lowercase'),
+      number: document.getElementById('req-number')
+    };
+
+    passwordInput.addEventListener('input', function () {
+      const password = this.value;
+      let strength = 0;
+
+      // Check length
+      if (password.length >= 8) {
+        requirements.length.classList.add('valid');
+        requirements.length.querySelector('i').className = 'bi bi-check-circle';
+        strength++;
+      } else {
+        requirements.length.classList.remove('valid');
+        requirements.length.querySelector('i').className = 'bi bi-x-circle';
+      }
+
+      // Check uppercase
+      if (/[A-Z]/.test(password)) {
+        requirements.uppercase.classList.add('valid');
+        requirements.uppercase.querySelector('i').className = 'bi bi-check-circle';
+        strength++;
+      } else {
+        requirements.uppercase.classList.remove('valid');
+        requirements.uppercase.querySelector('i').className = 'bi bi-x-circle';
+      }
+
+      // Check lowercase
+      if (/[a-z]/.test(password)) {
+        requirements.lowercase.classList.add('valid');
+        requirements.lowercase.querySelector('i').className = 'bi bi-check-circle';
+        strength++;
+      } else {
+        requirements.lowercase.classList.remove('valid');
+        requirements.lowercase.querySelector('i').className = 'bi bi-x-circle';
+      }
+
+      // Check number
+      if (/[0-9]/.test(password)) {
+        requirements.number.classList.add('valid');
+        requirements.number.querySelector('i').className = 'bi bi-check-circle';
+        strength++;
+      } else {
+        requirements.number.classList.remove('valid');
+        requirements.number.querySelector('i').className = 'bi bi-x-circle';
+      }
+
+      // Update strength bar
+      passwordStrengthBar.className = 'password-strength-bar';
+      if (strength === 0) {
+        passwordStrengthBar.style.width = '0';
+      } else if (strength <= 2) {
+        passwordStrengthBar.classList.add('weak');
+      } else if (strength === 3) {
+        passwordStrengthBar.classList.add('medium');
+      } else {
+        passwordStrengthBar.classList.add('strong');
+      }
+    });
+
+    // Real-time validation
+    const fullNameInput = document.getElementById('fullName');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+
+    fullNameInput.addEventListener('blur', function () {
+      if (this.value.trim().length < 2) {
+        this.classList.add('is-invalid');
+        this.classList.remove('is-valid');
+      } else {
+        this.classList.add('is-valid');
+        this.classList.remove('is-invalid');
+      }
+    });
+
+    emailInput.addEventListener('blur', function () {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.value)) {
+        this.classList.add('is-invalid');
+        this.classList.remove('is-valid');
+      } else {
+        this.classList.add('is-valid');
+        this.classList.remove('is-invalid');
+      }
+    });
+
+    phoneInput.addEventListener('blur', function () {
+      const phoneRegex = /^[0-9]{10,11}$/;
+      if (!phoneRegex.test(this.value.replace(/\s/g, ''))) {
+        this.classList.add('is-invalid');
+        this.classList.remove('is-valid');
+      } else {
+        this.classList.add('is-valid');
+        this.classList.remove('is-invalid');
+      }
+    });
+
+    confirmPasswordInput.addEventListener('input', function () {
+      if (this.value !== passwordInput.value) {
+        this.classList.add('is-invalid');
+        this.classList.remove('is-valid');
+      } else if (this.value.length > 0) {
+        this.classList.add('is-valid');
+        this.classList.remove('is-invalid');
+      }
+    });
+
+    // Form Submission
+    const registerForm = document.getElementById('registerForm');
+    const alertMessage = document.getElementById('alertMessage');
+    const submitBtn = document.getElementById('submitBtn');
+
+    registerForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      
+      // Get form values
+      const fullName = fullNameInput.value.trim();
+      const email = emailInput.value.trim();
+      const phone = phoneInput.value.trim();
+      const password = passwordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+      const agreeTerms = document.getElementById('agreeTerms').checked;
+
+      // Validate
+      let isValid = true;
+
+      if (fullName.length < 2) {
+        fullNameInput.classList.add('is-invalid');
+        isValid = false;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        emailInput.classList.add('is-invalid');
+        isValid = false;
+      }
+
+      const phoneRegex = /^[0-9]{10,11}$/;
+      if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+        phoneInput.classList.add('is-invalid');
+        isValid = false;
+      }
+
+      if (password.length < 8 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password)) {
+        showAlert('Mật khẩu không đủ mạnh!', 'danger');
+        isValid = false;
+      }
+
+      if (password !== confirmPassword) {
+        confirmPasswordInput.classList.add('is-invalid');
+        isValid = false;
+      }
+
+      if (!agreeTerms) {
+        showAlert('Vui lòng đồng ý với điều khoản dịch vụ!', 'danger');
+        isValid = false;
+      }
+
+      if (!isValid) {
+        return;
+      }
+
+      // Disable submit button
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Đang xử lý...';
+
+      // Simulate API call
+      setTimeout(() => {
+        // Here you would make an actual API call
+        console.log('Registration data:', { fullName, email, phone, password });
+        
+        showAlert('Đăng ký thành công! Đang chuyển hướng...', 'success');
+        
+        // Redirect after 2 seconds
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 2000);
+      }, 1500);
+    });
+
+    function showAlert(message, type) {
+      alertMessage.className = `alert alert-${type}`;
+      alertMessage.innerHTML = `<i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
+      alertMessage.style.display = 'block';
+      
+      // Auto hide after 5 seconds
+      if (type !== 'success') {
+        setTimeout(() => {
+          alertMessage.style.display = 'none';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Đăng Ký';
+        }, 5000);
+      }
+    }
+
+    // Social login handlers
+    document.querySelectorAll('.btn-social').forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const provider = this.textContent.trim();
+        console.log('Social registration with:', provider);
+        // Implement social login logic here
+      });
+    });
+  </script>
+</body>
+
+</html>
+

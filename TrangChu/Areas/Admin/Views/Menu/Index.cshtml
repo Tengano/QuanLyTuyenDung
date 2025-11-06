@@ -1,4 +1,4 @@
-@using TrangChu.Models
+@using TrangChu.Models;
 @model IList<Menu>
 
 @{
@@ -37,13 +37,11 @@
                                 {
                                     <tr>
                                         <td class="text-center" scope="row">@item.ID</td>
-                                        <td class="text-left text-primary" scope="row"><a asp-area="Admin"
-                                            asp-controller="Menu" asp-action="Details"
-                                            asp-route-id="@item.ID">@item.Name</a></td>
-                                        <td class="text-center" scope="row">@item.Name</td>
-                                        <td class="text-center" scope="row">@item.ParentID</td>
-                                        <td class="text-center" scope="row">@item.OrderIndex</td>
-                                        <td class="text-left" scope="row">@item.Url</td>
+                                        <td class="text-left" scope="row">@item.Name</td>
+                                        <td class="text-center" scope="row">@(item.ParentID == null ? "1" : "2")</td>
+                                        <td class="text-center" scope="row">@(item.ParentID?.ToString() ?? "N/A")</td>
+                                        <td class="text-center" scope="row">@(item.OrderIndex?.ToString() ?? "0")</td>
+                                        <td class="text-center" scope="row">True</td>
                                         <td class="text-center" scope="row">
                                             <a asp-area="Admin" asp-controller="Menu" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-primary btn-sm" title="Sửa menu">
                                                 <i class="bi bi-pencil"></i>

@@ -13,7 +13,7 @@ namespace TrangChu.Models
         {
         }
         
-        public DbSet<tblMenu> tblMenu { get; set; }
+        public DbSet<Menu> Menu { get; set; }
         public DbSet<AdminMenu> AdminMenu { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -21,10 +21,10 @@ namespace TrangChu.Models
             base.OnModelCreating(modelBuilder);
             
             // Configure self-referencing relationship for menu hierarchy
-            modelBuilder.Entity<tblMenu>()
+            modelBuilder.Entity<Menu>()
                 .HasOne(m => m.Parent)
                 .WithMany(m => m.Children)
-                .HasForeignKey(m => m.parent_id)
+            .HasForeignKey(m => m.ParentID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

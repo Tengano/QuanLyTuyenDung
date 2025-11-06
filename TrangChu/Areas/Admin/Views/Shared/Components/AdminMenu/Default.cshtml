@@ -12,13 +12,13 @@
         </a>
       </li><!-- End Dashboard Nav -->
 
-  @foreach (var item in Model.Where(m => m.ParentLevel == 1).OrderBy(m => m.ItemOrder))
+  @foreach (var item in Model.Where(m => m.ItemLevel == 1).OrderBy(m => m.ItemOrder))
   {
       var pID = item.AdminMenuID;
       var sMenu = Model.Where(m => m.ParentLevel == pID).OrderBy(m => m.ItemOrder).ToList();
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#@item.ItemTarget" data-bs-toggle="collapse" href="#">
-          <i class="@item.Icon)"></i>,<span>@item.ItemName</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="@item.Icon)"></i><span>@item.ItemName</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         @if (sMenu != null)
         {

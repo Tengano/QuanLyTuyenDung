@@ -1,7 +1,7 @@
-@model List<TrangChu.Models.tblMenu>
+@model List<TrangChu.Models.Menu>
 
 @{
-    void RenderMenuItem(TrangChu.Models.tblMenu item)
+    void RenderMenuItem(TrangChu.Models.Menu item)
     {
         if (item == null) return;
         
@@ -9,8 +9,8 @@
         <li class="@(hasChildren ? "dropdown" : "")">
             @if (hasChildren && item.Children != null)
             {
-                <a href="@(item.url ?? "#")">
-                    <span>@(item.name ?? "")</span> 
+                <a href="@(item.Url ?? "#")">
+                    <span>@(item.Name ?? "")</span> 
                     <i class="bi bi-chevron-down toggle-dropdown"></i>
                 </a>
                 <ul>
@@ -25,7 +25,7 @@
             }
             else
             {
-                <a href="@(item.url ?? "#")">@(item.name ?? "")</a>
+                <a href="@(item.Url ?? "#")">@(item.Name ?? "")</a>
             }
         </li>
     }

@@ -22,24 +22,24 @@ namespace TrangChu.Components
             try
             {
                 // Load all menus from database
-                var allMenus = await _context.tblMenu.ToListAsync();
+                var allMenus = await _context.Menu.ToListAsync();
                 
                 // Return empty list if no menus found
                 if (allMenus == null || !allMenus.Any())
                 {
-                    return View(new List<tblMenu>());
+                    return View(new List<Menu>());
                 }
                 
                 // Build hierarchy: assign children to their parents
-                var menuDict = allMenus.ToDictionary(m => m.id);
+                var menuDict = allMenus.ToDictionary(m => m.ID);
                 foreach (var menu in allMenus)
                 {
-                    if (menu.parent_id.HasValue && menuDict.ContainsKey(menu.parent_id.Value))
+                    if (menu.ParentID.HasValue && menuDict.ContainsKey(menu.ParentID.Value))
                     {
-                        var parent = menuDict[menu.parent_id.Value];
+                        var parent = menuDict[menu.ParentID.Value];
                         if (parent.Children == null)
                         {
-                            parent.Children = new List<tblMenu>();
+                            parent.Children = new List<Menu>();
                         }
                         parent.Children.Add(menu);
                     }
@@ -47,19 +47,19 @@ namespace TrangChu.Components
                 
                 // Get top-level menus (parent_id is null) and order them
                 var listMenu = allMenus
-                    .Where(m => m.parent_id == null)
-                    .OrderBy(m => m.order_index ?? int.MaxValue)
-                    .ThenBy(m => m.id)
+                    .Where(m => m.ParentID == null)
+                    .OrderBy(m => m.OrderIndex ?? int.MaxValue)
+                    .ThenBy(m => m.ID)
                     .ToList();
                 
                 // Sort children recursively
-                void SortChildren(tblMenu menuItem)
+                void SortChildren(Menu menuItem)
                 {
                     if (menuItem.Children != null && menuItem.Children.Any())
                     {
                         menuItem.Children = menuItem.Children
-                            .OrderBy(c => c.order_index ?? int.MaxValue)
-                            .ThenBy(c => c.id)
+                            .OrderBy(c => c.OrderIndex ?? int.MaxValue)
+                            .ThenBy(c => c.ID)
                             .ToList();
                         foreach (var child in menuItem.Children)
                         {
@@ -82,7 +82,7 @@ namespace TrangChu.Components
                 System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
                 
                 // Return empty list on error
-                return View(new List<tblMenu>());
+                return View(new List<Menu>());
             }
         }
     }

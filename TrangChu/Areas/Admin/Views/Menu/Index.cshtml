@@ -1,68 +1,54 @@
-@using TrangChu.Areas.Admin.Models
-@model IList<AdminMenu>
+@using TrangChu.Models
+@model IList<Menu>
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
 
 <main id="main" class="main">
     <div class="pagetitle">
         <h2>Danh sách chức năng</h2>
+
+        <p>
+            <a type="button" class="btn btn-success" asp-area="Admin" asp-controller="Menu" asp-action="Create">
+                <i class="bi bi-file-earmark-text me-1"></i>Thêm menu
+            </a>
+        </p>
     </div>
-
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle me-1"></i>
-            @TempData["Success"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-triangle me-1"></i>
-            @TempData["Error"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
-    <p>
-        <a type="button" class="btn btn-success" asp-area="Admin" asp-controller="Menu" asp-action="Create">
-            <i class="bi bi-file-earmark-text me-1"></i>Add New
-        </a>
-    </p>
-
     <section class="section dashboard">
-        <div class="row">
-            <div class="col-12">
-                <div class="card recent-sales overflow-auto">
-                    <div class="card-body mt-4">
-                        <table class="table table-borderless datatable">
-                            <thead>
-                                <tr>
-                                    <th class="col-1 text-center">#</th>
-                                    <th class="col-3 text-center">MenuName</th>
-                                    <th class="col-1 text-center">ControllerName</th>
-                                    <th class="col-1 text-center">OrderBy</th>
-                                    <th class="col-1 text-center">Visible</th>
-                                    <th class="col-3 text-center">Functions</th>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body mt-4">
+                                <table class="table table-borderless datatable">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-1 text-center">#</th>
+                                            <th class="col-3 text-center">MenuName</th>
+                                            <th class="col-2 text-center">Levels</th>
+                                            <th class="col-2 text-center">ParentID</th>
+                                            <th class="col-1 text-center">Order</th>
+                                            <th class="col-1 text-center">Visible</th>
+                                            <th class="col-1 text-center">Funcsions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model)
+                                @foreach(var item in Model)
                                 {
                                     <tr>
-                                        <td class="text-center">@item.AdminMenuID</td>
-                                        <td class="text-start">@item.ItemName</td>
-                                        <td class="text-center">@item.ControllerName</td>
-                                        <td class="text-center">@item.ItemOrder</td>
-                                        <td class="text-center">@item.IsActive</td>
-                                        <td class="text-center">
-                                            <a class="btn btn-warning btn-sm" asp-area="Admin" asp-controller="Menu" asp-action="Edit" asp-route-id="@item.AdminMenuID">
-                                                <i class="bi bi-pencil-square"></i>
+                                        <td class="text-center" scope="row">@item.ID</td>
+                                        <td class="text-left text-primary" scope="row"><a asp-area="Admin"
+                                            asp-controller="Menu" asp-action="Details"
+                                            asp-route-id="@item.ID">@item.Name</a></td>
+                                        <td class="text-center" scope="row">@item.Name</td>
+                                        <td class="text-center" scope="row">@item.ParentID</td>
+                                        <td class="text-center" scope="row">@item.OrderIndex</td>
+                                        <td class="text-left" scope="row">@item.Url</td>
+                                        <td class="text-center" scope="row">
+                                            <a asp-area="Admin" asp-controller="Menu" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-primary btn-sm" title="Sửa menu">
+                                                <i class="bi bi-pencil"></i>
                                             </a>
-                                            <a class="btn btn-primary btn-sm" asp-area="Admin" asp-controller="Menu" asp-action="Details" asp-route-id="@item.AdminMenuID">
-                                                <i class="bi bi-info-circle"></i>
-                                            </a>
-                                            <a class="btn btn-danger btn-sm" asp-area="Admin" asp-controller="Menu" asp-action="Delete" asp-route-id="@item.AdminMenuID">
+                                            <a asp-area="Admin" asp-controller="Menu" asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-sm" title="Xóa menu">
                                                 <i class="bi bi-trash"></i>
                                             </a>
                                         </td>

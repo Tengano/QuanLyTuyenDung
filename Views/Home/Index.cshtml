@@ -1,0 +1,414 @@
+﻿@using TrangChu.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var tinTuyenDungs = ViewBag.TinTuyenDungs as List<TinTuyenDung> ?? new List<TinTuyenDung>();
+    var hoSoUngTuyens = ViewBag.HoSoUngTuyens as List<HoSoUngTuyen> ?? new List<HoSoUngTuyen>();
+    var quaTrinhPhongVans = ViewBag.QuaTrinhPhongVans as List<QuaTrinhPhongVan> ?? new List<QuaTrinhPhongVan>();
+}
+
+<main class="main">
+
+    <section id="hero" class="hero section">
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div class="row align-items-center">
+                <div class="col-lg-6 order-2 order-lg-1" data-aos="fade-right" data-aos-delay="200">
+                    <div class="hero-content">
+                        <h1 class="hero-title">TIẾP LỢI THẾ, NỐI THÀNH CÔNG</h1>
+                        <p class="hero-description">Tìm việc làm nhanh 24h, việc làm mới nhất trên toàn quốc.</p>
+                        <div class="hero-actions">
+                            <a href="#jobs" class="btn-primary">Khám Phá Cơ Hội</a>
+                            <a href="@Url.Action("Index", "TinTuyenDung")" class="btn-secondary">
+                                <i class="bi bi-search"></i>
+                                <span>Tìm Kiếm Việc Làm</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left" data-aos-delay="300">
+                    <div class="hero-visual">
+                        <div class="hero-image-wrapper">
+                            <img src="~/assets/img/illustration/illustration-15.webp" class="img-fluid hero-image" alt="Hero Image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="jobs" class="jobs section">
+        <div class="container" data-aos="fade-up">
+            <div class="section-title text-center mb-5">
+                <span class="description-title">TIN TUYỂN DỤNG</span>
+                <h2>Việc Làm Mới Nhất</h2>
+                <p>Khám phá các cơ hội việc làm hấp dẫn nhất hiện tại</p>
+            </div>
+
+            @if (tinTuyenDungs.Any())
+            {
+                <div class="row g-4">
+                    @foreach (var job in tinTuyenDungs)
+                    {
+                        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                            <div class="job-card card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <div class="flex-grow-1">
+                                            <h4 class="card-title mb-2">
+                                                <a href="@Url.Action("Details", "TinTuyenDung", new { id = job.Id })" class="text-decoration-none">
+                                                    @job.TieuDe
+                                                </a>
+                                            </h4>
+                                            <p class="text-muted mb-2">
+                                                <i class="bi bi-building"></i> @(job.NhaTuyenDung?.TenCongTy ?? "N/A")
+                                            </p>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(job.MucLuong))
+                                        {
+                                            <span class="badge bg-success ms-2">@job.MucLuong</span>
+                                        }
+                                    </div>
+                                    
+                                    <div class="job-info mb-3">
+                                        @if (!string.IsNullOrEmpty(job.DiaDiemLamViec))
+                                        {
+                                            <p class="mb-2 small">
+                                                <i class="bi bi-geo-alt"></i> @job.DiaDiemLamViec
+                                            </p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(job.KinhNghiem))
+                                        {
+                                            <p class="mb-2 small">
+                                                <i class="bi bi-briefcase"></i> @job.KinhNghiem
+                                            </p>
+                                        }
+                                    </div>
+
+                                    @if (!string.IsNullOrEmpty(job.MoTaCongViec))
+                                    {
+                                        <p class="card-text text-muted small">
+                                            @(job.MoTaCongViec.Length > 100 ? job.MoTaCongViec.Substring(0, 100) + "..." : job.MoTaCongViec)
+                                        </p>
+                                    }
+
+                                    <div class="d-flex justify-content-between align-items-center mt-auto pt-3">
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar"></i> @job.NgayTao.ToString("dd/MM/yyyy")
+                                        </small>
+                                        <a href="@Url.Action("Details", "TinTuyenDung", new { id = job.Id })" 
+                                           class="btn btn-primary btn-sm">
+                                            Xem chi tiết
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="text-center mt-5">
+                    <a href="@Url.Action("Index", "TinTuyenDung")" class="btn btn-primary btn-lg">
+                        Xem Tất Cả Tin Tuyển Dụng
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <p class="lead">Hiện tại chưa có tin tuyển dụng nào.</p>
+                </div>
+            }
+        </div>
+    </section>
+
+    @{
+        var currentUserId = Context.Session.GetInt32("UserId");
+        var userRole = Context.Session.GetString("UserRole");
+        var isCandidate = currentUserId != null && userRole == "Candidate";
+    }
+    
+    @if (isCandidate)
+    {
+        <section id="my-applications" class="my-applications section light-background">
+            <div class="container" data-aos="fade-up">
+                <div class="section-title text-center mb-5">
+                    <span class="description-title">HỒ SƠ ỨNG TUYỂN</span>
+                    <h2>Hồ Sơ Ứng Tuyển Của Tôi</h2>
+                    <p>Theo dõi trạng thái các đơn ứng tuyển của bạn</p>
+                </div>
+
+                @if (hoSoUngTuyens.Any())
+                {
+                    <div class="row g-4">
+                        @foreach (var hoSo in hoSoUngTuyens)
+                        {
+                            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                                <div class="application-card card h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start mb-3">
+                                            <div>
+                                                <h5 class="card-title mb-2">
+                                                    @(hoSo.TinTuyenDung?.TieuDe ?? "N/A")
+                                                </h5>
+                                                <p class="text-muted mb-2">
+                                                    <i class="bi bi-building"></i> 
+                                                    @(hoSo.TinTuyenDung?.NhaTuyenDung?.TenCongTy ?? "N/A")
+                                                </p>
+                                            </div>
+                                            <span class="badge @(hoSo.TrangThai == "Đã duyệt" ? "bg-success" : hoSo.TrangThai == "Đã từ chối" ? "bg-danger" : "bg-warning")">
+                                                @(hoSo.TrangThai ?? "Chờ xử lý")
+                                            </span>
+                                        </div>
+                                        
+                                        <div class="application-info mb-3">
+                                            <p class="mb-2 small">
+                                                <i class="bi bi-calendar"></i> 
+                                                Ngày nộp: @hoSo.NgayNop.ToString("dd/MM/yyyy")
+                                            </p>
+                                            @if (!string.IsNullOrEmpty(hoSo.Email))
+                                            {
+                                                <p class="mb-2 small">
+                                                    <i class="bi bi-envelope"></i> @hoSo.Email
+                                                </p>
+                                            }
+                                        </div>
+
+                                        @if (hoSo.QuaTrinhPhongVans != null && hoSo.QuaTrinhPhongVans.Any())
+                                        {
+                                            <div class="interview-info mt-3 pt-3 border-top">
+                                                <p class="mb-2 small text-success">
+                                                    <i class="bi bi-calendar-check"></i> 
+                                                    Đã có @hoSo.QuaTrinhPhongVans.Count() lịch phỏng vấn
+                                                </p>
+                                            </div>
+                                        }
+
+                                        <div class="mt-3">
+                                            <span class="text-muted small">
+                                                Mã hồ sơ: #@hoSo.Id
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+                        <p class="lead">Bạn chưa có hồ sơ ứng tuyển nào.</p>
+                        <a href="@Url.Action("Index", "TinTuyenDung")" class="btn btn-primary">
+                            Tìm việc ngay
+                        </a>
+                    </div>
+                }
+            </div>
+        </section>
+
+        <section id="interviews" class="interviews section">
+            <div class="container" data-aos="fade-up">
+                <div class="section-title text-center mb-5">
+                    <span class="description-title">LỊCH PHỎNG VẤN</span>
+                    <h2>Quá Trình Phỏng Vấn</h2>
+                    <p>Theo dõi lịch phỏng vấn và kết quả của bạn</p>
+                </div>
+
+                @if (quaTrinhPhongVans.Any())
+                {
+                    <div class="row g-4">
+                        @foreach (var phongVan in quaTrinhPhongVans)
+                        {
+                            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                                <div class="interview-card card h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start mb-3">
+                                            <div>
+                                                <h5 class="card-title mb-2">
+                                                    @(phongVan.HoSoUngTuyen?.TinTuyenDung?.TieuDe ?? "N/A")
+                                                </h5>
+                                                <p class="text-muted mb-2">
+                                                    <i class="bi bi-building"></i> 
+                                                    @(phongVan.HoSoUngTuyen?.TinTuyenDung?.NhaTuyenDung?.TenCongTy ?? "N/A")
+                                                </p>
+                                            </div>
+                                            <span class="badge @(phongVan.TrangThai == "Đã hoàn thành" ? "bg-success" : phongVan.TrangThai == "Đã hủy" ? "bg-danger" : "bg-info")">
+                                                @(phongVan.TrangThai ?? "Đã lên lịch")
+                                            </span>
+                                        </div>
+                                        
+                                        <div class="interview-info">
+                                            <p class="mb-2">
+                                                <i class="bi bi-calendar-event"></i> 
+                                                <strong>Ngày:</strong> @phongVan.NgayPhongVan.ToString("dd/MM/yyyy")
+                                            </p>
+                                            @if (phongVan.GioPhongVan.HasValue)
+                                            {
+                                                <p class="mb-2">
+                                                    <i class="bi bi-clock"></i> 
+                                                    <strong>Giờ:</strong> @phongVan.GioPhongVan.Value.ToString(@"hh\:mm")
+                                                </p>
+                                            }
+                                            @if (!string.IsNullOrEmpty(phongVan.DiaDiem))
+                                            {
+                                                <p class="mb-2">
+                                                    <i class="bi bi-geo-alt"></i> 
+                                                    <strong>Địa điểm:</strong> @phongVan.DiaDiem
+                                                </p>
+                                            }
+                                            @if (!string.IsNullOrEmpty(phongVan.HinhThuc))
+                                            {
+                                                <p class="mb-2">
+                                                    <i class="bi bi-person-video"></i> 
+                                                    <strong>Hình thức:</strong> @phongVan.HinhThuc
+                                                </p>
+                                            }
+                                            @if (!string.IsNullOrEmpty(phongVan.NguoiPhongVan))
+                                            {
+                                                <p class="mb-2">
+                                                    <i class="bi bi-person"></i> 
+                                                    <strong>Người phỏng vấn:</strong> @phongVan.NguoiPhongVan
+                                                </p>
+                                            }
+                                        </div>
+
+                                        @if (phongVan.KetQuaPhongVan != null)
+                                        {
+                                            <div class="result-info mt-3 pt-3 border-top">
+                                                <h6 class="mb-2">Kết quả phỏng vấn:</h6>
+                                                <p class="mb-2">
+                                                    <strong>Kết quả:</strong> 
+                                                    <span class="badge @(phongVan.KetQuaPhongVan.KetQua == "Đạt" ? "bg-success" : phongVan.KetQuaPhongVan.KetQua == "Không đạt" ? "bg-danger" : "bg-warning")">
+                                                        @(phongVan.KetQuaPhongVan.KetQua ?? "Chưa có kết quả")
+                                                    </span>
+                                                </p>
+                                                @if (phongVan.KetQuaPhongVan.DiemSo.HasValue)
+                                                {
+                                                    <p class="mb-2">
+                                                        <strong>Điểm số:</strong> @phongVan.KetQuaPhongVan.DiemSo / 100
+                                                    </p>
+                                                }
+                                                @if (!string.IsNullOrEmpty(phongVan.KetQuaPhongVan.DanhGia))
+                                                {
+                                                    <p class="mb-2 small text-muted">
+                                                        @(phongVan.KetQuaPhongVan.DanhGia.Length > 100 ? phongVan.KetQuaPhongVan.DanhGia.Substring(0, 100) + "..." : phongVan.KetQuaPhongVan.DanhGia)
+                                                    </p>
+                                                }
+                                            </div>
+                                        }
+
+                                        @if (!string.IsNullOrEmpty(phongVan.GhiChu))
+                                        {
+                                            <div class="note-info mt-3 pt-3 border-top">
+                                                <p class="small text-muted">
+                                                    <strong>Ghi chú:</strong> @phongVan.GhiChu
+                                                </p>
+                                            </div>
+                                        }
+
+                                        <div class="mt-3">
+                                            <span class="text-muted small">
+                                                Mã phỏng vấn: #@phongVan.Id
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+                        <p class="lead">Bạn chưa có lịch phỏng vấn nào.</p>
+                    </div>
+                }
+            </div>
+        </section>
+    }
+    
+    @if (currentUserId == null)
+    {
+        <section id="cta" class="cta section dark-background">
+            <div class="container" data-aos="fade-up">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h2>Bắt đầu tìm kiếm việc làm ngay hôm nay</h2>
+                        <p>Đăng ký tài khoản để ứng tuyển và theo dõi trạng thái đơn ứng tuyển của bạn.</p>
+                    </div>
+                    <div class="col-lg-4 text-end">
+                        <a href="@Url.Action("Register", "Account")" class="btn btn-light btn-lg me-2">
+                            Đăng ký
+                        </a>
+                        <a href="@Url.Action("Login", "Account")" class="btn btn-outline-light btn-lg">
+                            Đăng nhập
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    <section id="contact" class="contact section light-background">
+        <div class="container section-title" data-aos="fade-up">
+            <span class="description-title">LIÊN HỆ</span>
+            <h2>Liên Hệ</h2>
+            <p>Chúng tôi sẽ hỗ trợ bạn sớm nhất có thể.</p>
+        </div>
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div class="row g-5">
+                <div class="col-lg-6">
+                    <div class="content" data-aos="fade-up" data-aos-delay="200">
+                        <div class="section-category mb-3">Liên Hệ</div>
+                        <h2 class="display-5 mb-4">Liên Hệ Với Chúng Tôi</h2>
+                        <p class="lead mb-4">Chúng tôi sẽ hỗ trợ bạn sớm nhất có thể.</p>
+
+                        <div class="contact-info mt-5">
+                            <div class="info-item d-flex mb-3" data-aos="fade-up" data-aos-delay="300">
+                                <i class="bi bi-envelope-at me-3"></i>
+                                <span>info@example.com</span>
+                            </div>
+                            <div class="info-item d-flex mb-3" data-aos="fade-up" data-aos-delay="400">
+                                <i class="bi bi-telephone me-3"></i>
+                                <span>+84 36 36 36 36</span>
+                            </div>
+                            <div class="info-item d-flex mb-4" data-aos="fade-up" data-aos-delay="500">
+                                <i class="bi bi-geo-alt me-3"></i>
+                                <span>36 Đường Lê Duẩn, Nghệ An, Việt Nam</span>
+                            </div>
+                            <a href="@Url.Action("Index", "Contact")" class="map-link d-inline-flex align-items-center" data-aos="fade-up" data-aos-delay="600">
+                                Liên hệ ngay
+                                <i class="bi bi-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <a href="@Url.Action("Index", "Contact")" class="btn btn-primary btn-lg">
+                            Gửi tin nhắn
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<style>
+    .job-card, .application-card, .interview-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #e0e0e0;
+        height: 100%;
+    }
+
+    .job-card:hover, .application-card:hover, .interview-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .light-background {
+        background-color: #f8f9fa;
+    }
+</style>

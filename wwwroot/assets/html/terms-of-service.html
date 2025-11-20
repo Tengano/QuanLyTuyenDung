@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Điều Khoản Dịch Vụ - Quản Lý Tuyển Dụng</title>
+  <meta name="description" content="Điều khoản dịch vụ của hệ thống quản lý tuyển dụng">
+  <meta name="keywords" content="điều khoản, dịch vụ, tuyển dụng">
+
+  <!-- Favicons -->
+  <link href="../img/favicon.png" rel="icon">
+  <link href="../img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <style>
+    :root {
+      --primary-color: #00a19e;
+      --primary-dark: #008885;
+      --secondary-color: #00d4d0;
+      --text-color: #3b5353;
+      --heading-color: #193838;
+      --text-muted: #6c757d;
+      --border-color: #d4e8e7;
+      --background-light: #f0f6f5;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Be Vietnam Pro', 'Roboto', sans-serif;
+      background: var(--background-light);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .header-bg {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      padding: 80px 0 60px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.05)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .back-home {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .back-home:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateX(-5px);
+      color: white;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header-content {
+      text-align: center;
+    }
+
+    .header-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      margin: 0 auto 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-content h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .header-content p {
+      font-size: 18px;
+      opacity: 0.95;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .last-updated {
+      margin-top: 20px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .content-section {
+      background: white;
+      margin: -30px auto 40px;
+      padding: 50px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+
+    .section-heading {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--heading-color);
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid var(--primary-color);
+      display: inline-block;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--heading-color);
+      margin-top: 35px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title i {
+      color: var(--primary-color);
+      font-size: 24px;
+    }
+
+    .section-content p {
+      margin-bottom: 15px;
+      text-align: justify;
+      line-height: 1.8;
+    }
+
+    .section-content ul, .section-content ol {
+      margin: 15px 0 15px 25px;
+      line-height: 1.8;
+    }
+
+    .section-content li {
+      margin-bottom: 10px;
+      padding-left: 5px;
+    }
+
+    .highlight-box {
+      background: var(--background-light);
+      border-left: 4px solid var(--primary-color);
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 8px;
+    }
+
+    .highlight-box h4 {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .contact-box {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .contact-box h3 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .contact-box p {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .contact-box a {
+      color: white;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+
+    .footer {
+      background: white;
+      padding: 30px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-color);
+      margin-top: 40px;
+    }
+
+    .footer p {
+      margin: 0;
+      color: var(--text-muted);
+    }
+
+    .footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .header-bg {
+        padding: 60px 0 40px;
+      }
+
+      .header-content h1 {
+        font-size: 32px;
+      }
+
+      .content-section {
+        padding: 30px 20px;
+        margin: -20px 15px 30px;
+      }
+
+      .section-heading {
+        font-size: 24px;
+      }
+
+      .section-title {
+        font-size: 20px;
+      }
+
+      .back-home {
+        position: static;
+        margin-bottom: 20px;
+      }
+    }
+
+    .toc {
+      background: var(--background-light);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    .toc h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--heading-color);
+      margin-bottom: 15px;
+    }
+
+    .toc ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .toc li {
+      margin-bottom: 8px;
+    }
+
+    .toc a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .toc a:hover {
+      padding-left: 10px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <div class="header-bg">
+    <a href="../../" class="back-home">
+      <i class="bi bi-arrow-left"></i>
+      <span>Về Trang Chủ</span>
+    </a>
+    
+    <div class="container">
+      <div class="header-content" data-aos="fade-up">
+        <div class="header-icon">
+          <i class="bi bi-file-text"></i>
+        </div>
+        <h1>Điều Khoản Dịch Vụ</h1>
+        <p>Vui lòng đọc kỹ các điều khoản và điều kiện sử dụng dịch vụ của Doily</p>
+        <div class="last-updated">
+          <i class="bi bi-calendar-check"></i> Cập nhật lần cuối: Tháng 11, 2025
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="content-section" data-aos="fade-up" data-aos-delay="100">
+      
+      <!-- Table of Contents -->
+      <div class="toc">
+        <h3><i class="bi bi-list-ul"></i> Mục lục</h3>
+        <ul>
+          <li><a href="#gioi-thieu"><i class="bi bi-chevron-right"></i> 1. Giới thiệu</a></li>
+          <li><a href="#chap-nhan"><i class="bi bi-chevron-right"></i> 2. Chấp nhận điều khoản</a></li>
+          <li><a href="#dich-vu"><i class="bi bi-chevron-right"></i> 3. Mô tả dịch vụ</a></li>
+          <li><a href="#tai-khoan"><i class="bi bi-chevron-right"></i> 4. Tài khoản người dùng</a></li>
+          <li><a href="#quyen-nghia-vu"><i class="bi bi-chevron-right"></i> 5. Quyền và nghĩa vụ</a></li>
+          <li><a href="#bao-mat"><i class="bi bi-chevron-right"></i> 6. Bảo mật thông tin của Doily</a></li>
+          <li><a href="#lien-he"><i class="bi bi-chevron-right"></i> 7. Liên hệ</a></li>
+        </ul>
+      </div>
+
+      <!-- Content Sections -->
+      <div class="section-content">
+        <h2 class="section-heading" id="gioi-thieu">Điều Khoản Sử Dụng Dịch Vụ</h2>
+
+        <section id="gioi-thieu">
+          <h3 class="section-title">
+            <i class="bi bi-1-circle-fill"></i>
+            Giới thiệu
+          </h3>
+          <p>
+            Chào mừng bạn đến với Hệ thống Quản Lý Tuyển Dụng của Doily. Bằng việc truy cập và sử dụng dịch vụ của chúng tôi, 
+            bạn đồng ý tuân thủ và bị ràng buộc bởi các điều khoản và điều kiện được nêu dưới đây.
+          </p>
+          <p>
+            Điều khoản dịch vụ này áp dụng cho tất cả người dùng, bao gồm nhà tuyển dụng, ứng viên và các bên liên quan khác 
+            sử dụng nền tảng của chúng tôi.
+          </p>
+        </section>
+
+        <section id="chap-nhan">
+          <h3 class="section-title">
+            <i class="bi bi-2-circle-fill"></i>
+            Chấp nhận Điều khoản
+          </h3>
+          <p>
+            Khi bạn đăng ký tài khoản, truy cập hoặc sử dụng bất kỳ phần nào của dịch vụ, bạn xác nhận rằng:
+          </p>
+          <ul>
+            <li>Bạn đã đọc, hiểu và đồng ý với toàn bộ điều khoản dịch vụ này</li>
+            <li>Bạn có đủ năng lực pháp lý để ký kết hợp đồng</li>
+            <li>Bạn đủ 18 tuổi trở lên hoặc đã được sự đồng ý của người giám hộ hợp pháp</li>
+            <li>Thông tin bạn cung cấp là chính xác và đầy đủ</li>
+          </ul>
+          
+          <div class="highlight-box">
+            <h4><i class="bi bi-exclamation-triangle"></i> Lưu ý quan trọng</h4>
+            <p>
+              Nếu bạn không đồng ý với bất kỳ điều khoản nào, vui lòng không sử dụng dịch vụ của chúng tôi.
+            </p>
+          </div>
+        </section>
+
+        <section id="dich-vu">
+          <h3 class="section-title">
+            <i class="bi bi-3-circle-fill"></i>
+            Mô tả Dịch vụ
+          </h3>
+          <p>
+            Hệ thống Quản Lý Tuyển Dụng Doily cung cấp các dịch vụ sau:
+          </p>
+          <ul>
+            <li><strong>Đối với Nhà tuyển dụng:</strong>
+              <ul>
+                <li>Đăng tin tuyển dụng và quản lý vị trí tuyển dụng</li>
+                <li>Tìm kiếm và sàng lọc ứng viên phù hợp</li>
+                <li>Quản lý quy trình phỏng vấn và đánh giá ứng viên</li>
+              </ul>
+            </li>
+            <li><strong>Đối với Ứng viên:</strong>
+              <ul>
+                <li>Tìm kiếm và ứng tuyển vào các vị trí công việc</li>
+                <li>Theo dõi trạng thái đơn ứng tuyển</li>
+                <li>Nhận thông báo về cơ hội việc làm phù hợp</li>
+                <li>Kết nối với các nhà tuyển dụng</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section id="tai-khoan">
+          <h3 class="section-title">
+            <i class="bi bi-4-circle-fill"></i>
+            Tài khoản Người dùng
+          </h3>
+          <p><strong>Đăng ký và bảo mật tài khoản:</strong></p>
+          <ul>
+            <li>Bạn phải cung cấp thông tin chính xác, đầy đủ khi đăng ký tài khoản</li>
+            <li>Bạn có trách nhiệm bảo mật thông tin đăng nhập và mật khẩu của mình</li>
+            <li>Bạn không được chia sẻ tài khoản với người khác</li>
+            <li>Bạn phải thông báo ngay cho chúng tôi nếu phát hiện việc truy cập trái phép</li>
+            <li>Bạn chịu trách nhiệm về mọi hoạt động diễn ra dưới tài khoản của mình</li>
+          </ul>
+
+          <p><strong>Quyền hủy bỏ tài khoản:</strong></p>
+          <p>
+            Chúng tôi có quyền đình chỉ hoặc chấm dứt tài khoản của bạn nếu:
+          </p>
+          <ul>
+            <li>Vi phạm bất kỳ điều khoản nào trong thỏa thuận này</li>
+            <li>Cung cấp thông tin sai lệch hoặc gian lận</li>
+            <li>Có hành vi gây hại đến hệ thống hoặc người dùng khác</li>
+            <li>Không hoạt động trong thời gian dài (trên 12 tháng)</li>
+          </ul>
+        </section>
+
+        <section id="quyen-nghia-vu">
+          <h3 class="section-title">
+            <i class="bi bi-5-circle-fill"></i>
+            Quyền và Nghĩa vụ
+          </h3>
+          
+          <p><strong>Quyền của người dùng:</strong></p>
+          <ul>
+            <li>Truy cập và sử dụng các dịch vụ theo gói đã đăng ký</li>
+            <li>Cập nhật, chỉnh sửa hoặc xóa thông tin cá nhân của mình</li>
+            <li>Được bảo vệ thông tin theo chính sách bảo mật</li>
+            <li>Nhận hỗ trợ kỹ thuật từ đội ngũ chăm sóc khách hàng</li>
+            <li>Khiếu nại và giải quyết tranh chấp theo quy định</li>
+          </ul>
+
+          <p><strong>Nghĩa vụ của người dùng:</strong></p>
+          <ul>
+            <li>Cung cấp thông tin trung thực và chính xác</li>
+            <li>Tuân thủ các quy định pháp luật hiện hành</li>
+            <li>Không sử dụng dịch vụ cho mục đích bất hợp pháp</li>
+            <li>Tôn trọng quyền sở hữu trí tuệ của chúng tôi và bên thứ ba</li>
+            <li>Không gửi spam, virus hoặc mã độc hại</li>
+          </ul>
+
+          <div class="highlight-box">
+            <h4><i class="bi bi-shield-check"></i> Cam kết của chúng tôi</h4>
+            <p>
+              Chúng tôi cam kết cung cấp dịch vụ chất lượng cao, bảo mật thông tin người dùng và 
+              hỗ trợ tối đa trong quá trình sử dụng dịch vụ.
+            </p>
+          </div>
+        </section>
+
+        <section id="bao-mat">
+          <h3 class="section-title">
+            <i class="bi bi-7-circle-fill"></i>
+            Bảo mật Thông tin
+          </h3>
+          <p>
+            Chúng tôi cam kết bảo vệ thông tin cá nhân của bạn. Vui lòng xem 
+            <a href="privacy-policy.html">Chính sách Bảo mật</a> của chúng tôi để biết chi tiết về:
+          </p>
+          <ul>
+            <li>Cách chúng tôi thu thập và sử dụng thông tin</li>
+            <li>Các biện pháp bảo mật được áp dụng</li>
+            <li>Quyền kiểm soát dữ liệu của bạn</li>
+            <li>Cách chúng tôi chia sẻ thông tin (nếu có)</li>
+          </ul>
+        </section>
+
+        <section id="lien-he">
+          <h3 class="section-title">
+            <i class="bi bi-10-circle-fill"></i>
+            Liên hệ
+          </h3>
+          <p>
+            Nếu bạn có bất kỳ câu hỏi nào về Điều khoản Dịch vụ này, vui lòng liên hệ với chúng tôi:
+          </p>
+        </section>
+
+        <!-- Contact Box -->
+        <div class="contact-box">
+          <h3><i class="bi bi-envelope-heart"></i> Thông tin Liên hệ</h3>
+          <p><i class="bi bi-geo-alt-fill"></i> Địa chỉ: 36 Lê Duẩn, Nghệ An, Việt Nam</p>
+          <p><i class="bi bi-telephone-fill"></i> Điện thoại: <a href="tel:+8436363636">+84 36 36 36 36</a></p>
+          <p><i class="bi bi-envelope-fill"></i> Email: <a href="mailto:info@tuyendung.com">info@tuyendung.com</a></p>
+          <p><i class="bi bi-clock-fill"></i> Giờ làm việc: 8:00 - 17:00 (Thứ 2 - Thứ 6)</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="container">
+      <p>&copy; 2025 Hệ thống Quản Lý Tuyển Dụng. All rights reserved.</p>
+      <p>
+        <a href="terms-of-service.html">Điều khoản Dịch vụ</a> | 
+        <a href="privacy-policy.html">Chính sách Bảo mật</a> | 
+        <a href="../../">Trang chủ</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Vendor JS Files -->
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../vendor/aos/aos.js"></script>
+
+  <!-- Custom JS -->
+  <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 800,
+      once: true,
+      offset: 100
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
+
+

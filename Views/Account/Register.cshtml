@@ -1,0 +1,311 @@
+@model TrangChu.Models.TaiKhoan
+@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Đăng ký tài khoản mới trong hệ thống quản lý tuyển dụng">
+    <title>Đăng ký - @ViewData["Title"]</title>
+    
+    <link href="~/assets/img/favicon.png" rel="icon">
+    
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    
+    <link href="~/assets/css/auth.css" rel="stylesheet">
+</head>
+
+<body>
+    <a asp-controller="Home" asp-action="Index" class="back-home">
+        <i class="bi bi-arrow-left"></i>
+        <span>Về trang chủ</span>
+    </a>
+
+    <div class="auth-container register-page">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">
+                    <i class="bi bi-person-plus"></i>
+                </div>
+                <h2>Đăng ký tài khoản</h2>
+                <p>Tạo tài khoản mới để bắt đầu hành trình tìm việc của bạn</p>
+            </div>
+            
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-2"></i>
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-circle me-2"></i>
+                    @TempData["ErrorMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger" role="alert">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>Vui lòng kiểm tra lại thông tin:</strong>
+                    <ul class="mb-0 mt-2">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+            }
+            
+            <form asp-action="Register" method="post" id="registerForm" novalidate>
+                @Html.AntiForgeryToken()
+                
+                <div class="form-group">
+                    <label asp-for="HoTen" class="form-label">
+                        Họ và tên <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input asp-for="HoTen" 
+                               class="form-control" 
+                               placeholder="Nhập họ và tên đầy đủ" 
+                               required 
+                               autocomplete="name"
+                               autofocus />
+                        <span class="input-group-icon">
+                            <i class="bi bi-person"></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="HoTen" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email" class="form-label">
+                        Email <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input asp-for="Email" 
+                               class="form-control" 
+                               placeholder="email@example.com" 
+                               type="email"
+                               required 
+                               autocomplete="email" />
+                        <span class="input-group-icon">
+                            <i class="bi bi-envelope"></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SoDienThoai" class="form-label">
+                        Số điện thoại <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input asp-for="SoDienThoai" 
+                               class="form-control" 
+                               placeholder="0123456789" 
+                               required 
+                               autocomplete="tel"
+                               pattern="[0-9]{10,11}" />
+                        <span class="input-group-icon">
+                            <i class="bi bi-phone"></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Role" class="form-label">
+                        Vai trò <span class="required">*</span>
+                    </label>
+                    <select asp-for="Role" class="form-control" required>
+                        <option value="">-- Chọn vai trò --</option>
+                        <option value="Candidate">Ứng viên tìm việc</option>
+                        <option value="Employer">Nhà tuyển dụng</option>
+                    </select>
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="MatKhau" class="form-label">
+                        Mật khẩu <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input asp-for="MatKhau" 
+                               class="form-control" 
+                               placeholder="Tối thiểu 6 ký tự" 
+                               type="password"
+                               required 
+                               autocomplete="new-password" 
+                               minlength="6"
+                               id="MatKhau" />
+                        <span class="input-group-icon" id="togglePassword" style="cursor: pointer;" title="Hiện/ẩn mật khẩu">
+                            <i class="bi bi-eye" id="eyeIcon"></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="MatKhau" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        Xác nhận mật khẩu <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input name="XacNhanMatKhau" 
+                               class="form-control" 
+                               placeholder="Nhập lại mật khẩu" 
+                               type="password"
+                               required 
+                               autocomplete="new-password"
+                               id="XacNhanMatKhau" />
+                        <span class="input-group-icon" id="toggleConfirmPassword" style="cursor: pointer;" title="Hiện/ẩn mật khẩu">
+                            <i class="bi bi-eye" id="eyeConfirmIcon"></i>
+                        </span>
+                    </div>
+                    @if (ViewData.ModelState["XacNhanMatKhau"] != null && ViewData.ModelState["XacNhanMatKhau"].Errors.Count > 0)
+                    {
+                        <span class="text-danger">@ViewData.ModelState["XacNhanMatKhau"].Errors[0].ErrorMessage</span>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DiaChi" class="form-label">Địa chỉ</label>
+                    <textarea asp-for="DiaChi" 
+                              class="form-control" 
+                              rows="3" 
+                              placeholder="Địa chỉ (tùy chọn)"></textarea>
+                    <span asp-validation-for="DiaChi" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn-register" id="registerButton">
+                    <i class="bi bi-person-plus"></i>
+                    <span>Đăng ký</span>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>
+                    Đã có tài khoản? 
+                    <a asp-action="Login">Đăng nhập ngay</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('MatKhau');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (togglePassword && passwordInput && eyeIcon) {
+                togglePassword.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    
+                    if (type === 'password') {
+                        eyeIcon.classList.remove('bi-eye-slash');
+                        eyeIcon.classList.add('bi-eye');
+                        togglePassword.setAttribute('title', 'Hiện mật khẩu');
+                    } else {
+                        eyeIcon.classList.remove('bi-eye');
+                        eyeIcon.classList.add('bi-eye-slash');
+                        togglePassword.setAttribute('title', 'Ẩn mật khẩu');
+                    }
+                });
+            }
+            
+            const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+            const confirmPasswordInput = document.getElementById('XacNhanMatKhau');
+            const eyeConfirmIcon = document.getElementById('eyeConfirmIcon');
+            
+            if (toggleConfirmPassword && confirmPasswordInput && eyeConfirmIcon) {
+                toggleConfirmPassword.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    confirmPasswordInput.setAttribute('type', type);
+                    
+                    if (type === 'password') {
+                        eyeConfirmIcon.classList.remove('bi-eye-slash');
+                        eyeConfirmIcon.classList.add('bi-eye');
+                        toggleConfirmPassword.setAttribute('title', 'Hiện mật khẩu');
+                    } else {
+                        eyeConfirmIcon.classList.remove('bi-eye');
+                        eyeConfirmIcon.classList.add('bi-eye-slash');
+                        toggleConfirmPassword.setAttribute('title', 'Ẩn mật khẩu');
+                    }
+                });
+            }
+
+            const passwordInput = document.getElementById('MatKhau');
+            const confirmPasswordInput = document.getElementById('XacNhanMatKhau');
+            
+            function validatePasswordMatch() {
+                if (confirmPasswordInput && passwordInput) {
+                    if (confirmPasswordInput.value && passwordInput.value !== confirmPasswordInput.value) {
+                        confirmPasswordInput.setCustomValidity('Mật khẩu xác nhận không khớp');
+                    } else {
+                        confirmPasswordInput.setCustomValidity('');
+                    }
+                }
+            }
+            
+            if (passwordInput && confirmPasswordInput) {
+                passwordInput.addEventListener('input', validatePasswordMatch);
+                confirmPasswordInput.addEventListener('input', validatePasswordMatch);
+            }
+
+            const registerForm = document.getElementById('registerForm');
+            const registerButton = document.getElementById('registerButton');
+            
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    if (passwordInput && confirmPasswordInput) {
+                        if (passwordInput.value !== confirmPasswordInput.value) {
+                            e.preventDefault();
+                            alert('Mật khẩu xác nhận không khớp');
+                            return false;
+                        }
+                    }
+                    
+                    if (registerButton) {
+                        registerButton.classList.add('btn-loading');
+                        registerButton.disabled = true;
+                    }
+                });
+            }
+
+            const inputs = document.querySelectorAll('.form-control');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.classList.add('focused');
+                });
+                
+                input.addEventListener('blur', function() {
+                    if (!this.value) {
+                        this.parentElement.classList.remove('focused');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

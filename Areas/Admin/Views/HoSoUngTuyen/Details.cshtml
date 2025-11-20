@@ -1,0 +1,181 @@
+@model TrangChu.Models.HoSoUngTuyen
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Chi tiết hồ sơ ứng tuyển</h2>
+    </div>
+    
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Thông tin hồ sơ ứng tuyển</h5>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>ID:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@Model.Id</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Tin tuyển dụng:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.TinTuyenDung?.TieuDe ?? "-")</p>
+                                <small class="text-muted">Công ty: @(Model.TinTuyenDung?.NhaTuyenDung?.TenCongTy ?? "-")</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Ứng viên:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.TaiKhoan?.HoTen ?? Model.HoTen ?? "-")</p>
+                                <small class="text-muted">Email: @(Model.Email ?? Model.TaiKhoan?.Email ?? "-")</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Họ và tên:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.HoTen ?? Model.TaiKhoan?.HoTen ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Email:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.Email ?? Model.TaiKhoan?.Email ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Số điện thoại:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.SoDienThoai ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>CV/Resume:</strong></label>
+                            <div class="col-sm-9">
+                                @if (!string.IsNullOrEmpty(Model.CvUrl))
+                                {
+                                    <a href="@Model.CvUrl" target="_blank" class="btn btn-sm btn-info">
+                                        <i class="bi bi-file-earmark-pdf"></i> Xem CV
+                                    </a>
+                                }
+                                else
+                                {
+                                    <p class="form-control-plaintext text-muted">Chưa có CV</p>
+                                }
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Thư xin việc:</strong></label>
+                            <div class="col-sm-9">
+                                <div class="border p-3 rounded bg-light">
+                                    @if (!string.IsNullOrEmpty(Model.ThuXinViec))
+                                    {
+                                        <p style="white-space: pre-wrap;">@Model.ThuXinViec</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted">Chưa có thư xin việc</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Trạng thái:</strong></label>
+                            <div class="col-sm-9">
+                                @{
+                                    var statusClass = Model.TrangThai switch
+                                    {
+                                        "Đã duyệt" => "bg-success",
+                                        "Đã từ chối" => "bg-danger",
+                                        "Đã phỏng vấn" => "bg-info",
+                                        "Chờ xử lý" => "bg-warning",
+                                        _ => "bg-secondary"
+                                    };
+                                }
+                                <span class="badge @statusClass">@(Model.TrangThai ?? "Chờ xử lý")</span>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Ghi chú:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.GhiChu ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Ngày nộp:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@Model.NgayNop.ToString("dd/MM/yyyy HH:mm")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Ngày cập nhật:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.NgayCapNhat?.ToString("dd/MM/yyyy HH:mm") ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        @if (Model.QuaTrinhPhongVans != null && Model.QuaTrinhPhongVans.Any())
+                        {
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Quá trình phỏng vấn:</strong></label>
+                                <div class="col-sm-9">
+                                    <div class="list-group">
+                                        @foreach (var pv in Model.QuaTrinhPhongVans)
+                                        {
+                                            <div class="list-group-item">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">Ngày: @pv.NgayPhongVan.ToString("dd/MM/yyyy")</h6>
+                                                    <span class="badge bg-primary">@(pv.TrangThai ?? "Đã lên lịch")</span>
+                                                </div>
+                                                <p class="mb-1">Hình thức: @(pv.HinhThuc ?? "-") | Địa điểm: @(pv.DiaDiem ?? "-")</p>
+                                                <small>
+                                                    <a asp-area="Admin" asp-controller="QuaTrinhPhongVan" asp-action="Details" asp-route-id="@pv.Id" class="btn btn-sm btn-info">
+                                                        <i class="bi bi-eye"></i> Xem chi tiết
+                                                    </a>
+                                                </small>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        
+                        <div class="row mb-3">
+                            <div class="col-sm-9 offset-sm-3">
+                                <a asp-area="Admin" asp-controller="HoSoUngTuyen" asp-action="Index" class="btn btn-secondary">
+                                    <i class="bi bi-arrow-left-circle"></i> Quay lại danh sách
+                                </a>
+                                <a asp-area="Admin" asp-controller="HoSoUngTuyen" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                                    <i class="bi bi-pencil"></i> Chỉnh sửa
+                                </a>
+                                <a asp-area="Admin" asp-controller="HoSoUngTuyen" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                                    <i class="bi bi-trash"></i> Xóa
+                                </a>
+                                <a asp-area="Admin" asp-controller="QuaTrinhPhongVan" asp-action="Create" asp-route-hoSoUngTuyenId="@Model.Id" class="btn btn-success">
+                                    <i class="bi bi-calendar-plus"></i> Tạo lịch phỏng vấn
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+

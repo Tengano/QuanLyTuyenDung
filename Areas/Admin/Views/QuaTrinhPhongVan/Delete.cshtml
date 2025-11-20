@@ -1,0 +1,97 @@
+@model TrangChu.Models.QuaTrinhPhongVan
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Xóa quá trình phỏng vấn</h2>
+    </div>
+    
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Xác nhận xóa</h5>
+                        <p class="text-danger">Bạn có chắc chắn muốn xóa quá trình phỏng vấn này? Hành động này không thể hoàn tác.</p>
+                        
+                        @if (ViewBag.HasKetQua == true)
+                        {
+                            <div class="alert alert-warning">
+                                <h6><i class="bi bi-exclamation-triangle"></i> Cảnh báo</h6>
+                                <p>Quá trình phỏng vấn này có kết quả phỏng vấn liên quan. Bạn cần xóa kết quả phỏng vấn trước khi xóa quá trình phỏng vấn này.</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-info">
+                                <h6><i class="bi bi-info-circle"></i> Thông tin</h6>
+                                <p>Quá trình phỏng vấn này có thể được xóa an toàn.</p>
+                            </div>
+                        }
+                        
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger">
+                                <i class="bi bi-exclamation-circle"></i> @TempData["ErrorMessage"]
+                            </div>
+                        }
+                        
+                        <form asp-area="Admin" asp-controller="QuaTrinhPhongVan" asp-action="Delete" method="Post">
+                            <input type="hidden" asp-for="Id" />
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>ID:</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="@Model.Id" disabled />
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Ứng viên:</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="@(Model.HoSoUngTuyen?.TaiKhoan?.HoTen ?? "-")" disabled />
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Tin tuyển dụng:</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="@(Model.HoSoUngTuyen?.TinTuyenDung?.TieuDe ?? "-")" disabled />
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Ngày phỏng vấn:</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="@Model.NgayPhongVan.ToString("dd/MM/yyyy")" disabled />
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Trạng thái:</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="@(Model.TrangThai ?? "Đã lên lịch")" disabled />
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-sm-9 offset-sm-3">
+                                    <a asp-area="Admin" asp-controller="QuaTrinhPhongVan" asp-action="Index" class="btn btn-warning">
+                                        <i class="bi bi-arrow-left-circle"></i> Hủy
+                                    </a>
+                                    <button type="submit" class="btn btn-danger" @(ViewBag.HasKetQua == true ? "disabled" : "")>
+                                        <i class="bi bi-trash"></i> Xóa
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+

@@ -1,0 +1,150 @@
+@model TrangChu.Models.TaiKhoan
+@using System.Linq
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Sửa tài khoản</h2>
+    </div>
+    
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Thông tin tài khoản</h5>
+                        
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="bi bi-exclamation-circle"></i> @TempData["ErrorMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                <h6><i class="bi bi-exclamation-triangle"></i> Vui lòng kiểm tra lại thông tin:</h6>
+                                <ul class="mb-0">
+                                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                    {
+                                        <li>@error.ErrorMessage</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                        
+                        <form method="Post" asp-area="Admin" asp-controller="TaiKhoan" asp-action="Edit">
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="NgayTao" />
+                            <input type="hidden" asp-for="MatKhau" value="@Model.MatKhau" />
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Họ và tên <span class="text-danger">*</span></label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" asp-for="HoTen" placeholder="Nhập họ và tên..." />
+                                    <span asp-validation-for="HoTen" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Email <span class="text-danger">*</span></label>
+                                <div class="col-sm-10">
+                                    <input type="email" class="form-control" asp-for="Email" placeholder="Nhập email..." />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Số điện thoại <span class="text-danger">*</span></label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" asp-for="SoDienThoai" placeholder="Nhập số điện thoại..." />
+                                    <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Địa chỉ</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" asp-for="DiaChi" placeholder="Nhập địa chỉ..." />
+                                    <span asp-validation-for="DiaChi" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Vai trò <span class="text-danger">*</span></label>
+                                <div class="col-sm-10">
+                                    <select class="form-select" asp-for="Role" id="RoleSelect">
+                                        <option value="Candidate" selected="@(Model.Role == "Candidate")">Ứng viên</option>
+                                        <option value="Employer" selected="@(Model.Role == "Employer")">Nhà tuyển dụng</option>
+                                        <option value="Admin" selected="@(Model.Role == "Admin")">Quản trị viên</option>
+                                    </select>
+                                    <span asp-validation-for="Role" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3" id="CompanyRow" style="display: @(Model.Role == "Employer" ? "block" : "none");">
+                                <label class="col-sm-2 col-form-label">Công ty <span class="text-danger">*</span></label>
+                                <div class="col-sm-10">
+                                    <select class="form-select" asp-for="NhaTuyenDungId">
+                                        <option value="">-- Chọn công ty --</option>
+                                        @if (ViewBag.NhaTuyenDungList != null)
+                                        {
+                                            @foreach (var item in (List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.NhaTuyenDungList)
+                                            {
+                                                <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                                            }
+                                        }
+                                    </select>
+                                    <span asp-validation-for="NhaTuyenDungId" class="text-danger"></span>
+                                    <small class="form-text text-muted">Vui lòng chọn công ty cho tài khoản nhà tuyển dụng này.</small>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Trạng thái</label>
+                                <div class="col-sm-10">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" asp-for="IsActive" />
+                                        <label class="form-check-label" for="IsActive">Hoạt động</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-sm-10 offset-sm-2">
+                                    <a asp-area="Admin" asp-controller="TaiKhoan" asp-action="Index" class="btn btn-warning">
+                                        <i class="bi bi-arrow-left-circle"></i> Quay lại
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-save"></i> Lưu thông tin
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.getElementById('RoleSelect').addEventListener('change', function() {
+            var companyRow = document.getElementById('CompanyRow');
+            if (this.value === 'Employer') {
+                companyRow.style.display = 'block';
+            } else {
+                companyRow.style.display = 'none';
+                document.getElementById('NhaTuyenDungId').value = '';
+            }
+        });
+    </script>
+}
+

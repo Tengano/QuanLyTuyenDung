@@ -1,0 +1,383 @@
+@model TrangChu.Models.TaiKhoan
+@{
+    ViewData["Title"] = "Hồ sơ của tôi";
+    var nameParts = Model.HoTen.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+    var initials = nameParts.Length >= 2 
+        ? nameParts[0].Substring(0, 1).ToUpper() + nameParts[nameParts.Length - 1].Substring(0, 1).ToUpper()
+        : Model.HoTen.Substring(0, Math.Min(2, Model.HoTen.Length)).ToUpper();
+}
+
+<style>
+    .profile-page {
+        padding: 100px 0 60px;
+        background: linear-gradient(135deg, #f0f6f5 0%, #ffffff 100%);
+        min-height: 100vh;
+    }
+    
+    .profile-card {
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border: none;
+    }
+    
+    .profile-header {
+        background: linear-gradient(135deg, #00a19e 0%, #00d4d0 100%);
+        padding: 40px 30px;
+        color: white;
+        position: relative;
+    }
+    
+    .profile-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 30px;
+        background: #ffffff;
+        border-radius: 20px 20px 0 0;
+    }
+    
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        font-weight: bold;
+        color: white;
+        margin: 0 auto 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .profile-name {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    
+    .profile-info-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 15px;
+    }
+    
+    .profile-info-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        opacity: 0.95;
+    }
+    
+    .profile-info-item i {
+        font-size: 16px;
+    }
+    
+    .profile-badge {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .profile-content {
+        padding: 40px 30px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .info-section {
+        margin-bottom: 30px;
+    }
+    
+    .info-section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #193838;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #f0f6f5;
+    }
+    
+    .info-row {
+        display: flex;
+        padding: 15px 0;
+        border-bottom: 1px solid #f0f6f5;
+    }
+    
+    .info-row:last-child {
+        border-bottom: none;
+    }
+    
+    .info-label {
+        font-weight: 600;
+        color: #3b5353;
+        min-width: 150px;
+        font-size: 14px;
+    }
+    
+    .info-value {
+        color: #193838;
+        flex: 1;
+        font-size: 14px;
+    }
+    
+    .company-info-box {
+        background: linear-gradient(135deg, #f0f6f5 0%, #ffffff 100%);
+        border-left: 4px solid #00a19e;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+    
+    .company-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: #193838;
+        margin-bottom: 10px;
+    }
+    
+    .action-buttons {
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 2px solid #f0f6f5;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    
+    .btn-profile {
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+    }
+    
+    .btn-profile-primary {
+        background: linear-gradient(135deg, #00a19e 0%, #00d4d0 100%);
+        color: white;
+    }
+    
+    .btn-profile-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 161, 158, 0.3);
+        color: white;
+    }
+    
+    .btn-profile-secondary {
+        background: #f0f6f5;
+        color: #3b5353;
+    }
+    
+    .btn-profile-secondary:hover {
+        background: #e0eceb;
+        color: #193838;
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="profile-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle me-2"></i>@TempData["SuccessMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+                
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            @initials
+                        </div>
+                        <h2 class="profile-name">@Model.HoTen</h2>
+                        <div class="profile-info-header">
+                            <div class="profile-info-item">
+                                <i class="bi bi-envelope"></i>
+                                <span>@Model.Email</span>
+                            </div>
+                            <div class="profile-info-item">
+                                <i class="bi bi-phone"></i>
+                                <span>@Model.SoDienThoai</span>
+                            </div>
+                            <div class="profile-info-item">
+                                <i class="bi bi-person-badge"></i>
+                                @if (Model.Role == "Admin")
+                                {
+                                    <span class="profile-badge" style="background: rgba(220, 53, 69, 0.2); color: #dc3545;">
+                                        <i class="bi bi-shield-check"></i>Quản trị viên
+                                    </span>
+                                }
+                                else if (Model.Role == "Candidate")
+                                {
+                                    <span class="profile-badge" style="background: rgba(13, 202, 240, 0.2); color: #0dcaf0;">
+                                        <i class="bi bi-person"></i>Ứng viên
+                                    </span>
+                                }
+                                else if (Model.Role == "Employer")
+                                {
+                                    <span class="profile-badge" style="background: rgba(25, 135, 84, 0.2); color: #198754;">
+                                        <i class="bi bi-building"></i>Nhà tuyển dụng
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-content">
+                        @if (Model.Role == "Employer" && Model.NhaTuyenDung != null)
+                        {
+                            <div class="info-section">
+                                <h5 class="info-section-title">
+                                    <i class="bi bi-building me-2"></i>Thông tin công ty
+                                </h5>
+                                <div class="company-info-box">
+                                    <div class="company-name">@Model.NhaTuyenDung.TenCongTy</div>
+                                    <div class="row">
+                                        @if (!string.IsNullOrEmpty(Model.NhaTuyenDung.Email))
+                                        {
+                                            <div class="col-md-6 mb-2">
+                                                <i class="bi bi-envelope text-muted me-2"></i>
+                                                <span>@Model.NhaTuyenDung.Email</span>
+                                            </div>
+                                        }
+                                        @if (!string.IsNullOrEmpty(Model.NhaTuyenDung.SoDienThoai))
+                                        {
+                                            <div class="col-md-6 mb-2">
+                                                <i class="bi bi-phone text-muted me-2"></i>
+                                                <span>@Model.NhaTuyenDung.SoDienThoai</span>
+                                            </div>
+                                        }
+                                        @if (!string.IsNullOrEmpty(Model.NhaTuyenDung.DiaChi))
+                                        {
+                                            <div class="col-md-12 mb-2">
+                                                <i class="bi bi-geo-alt text-muted me-2"></i>
+                                                <span>@Model.NhaTuyenDung.DiaChi</span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else if (Model.Role == "Employer" && Model.NhaTuyenDung == null)
+                        {
+                            <div class="alert alert-warning" role="alert">
+                                <i class="bi bi-exclamation-triangle me-2"></i>
+                                <strong>Chưa được gán công ty:</strong> Tài khoản của bạn chưa được liên kết với công ty nào. Vui lòng liên hệ quản trị viên để được gán công ty.
+                            </div>
+                        }
+                        
+                        <div class="info-section">
+                            <h5 class="info-section-title">
+                                <i class="bi bi-info-circle me-2"></i>Thông tin tài khoản
+                            </h5>
+                            
+                            <div class="info-row">
+                                <div class="info-label">Họ và tên</div>
+                                <div class="info-value">@Model.HoTen</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">Email</div>
+                                <div class="info-value">@Model.Email</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">Số điện thoại</div>
+                                <div class="info-value">@Model.SoDienThoai</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">Vai trò</div>
+                                <div class="info-value">
+                                    @if (Model.Role == "Admin")
+                                    {
+                                        <span class="badge bg-danger">Quản trị viên</span>
+                                    }
+                                    else if (Model.Role == "Candidate")
+                                    {
+                                        <span class="badge bg-info">Ứng viên</span>
+                                    }
+                                    else if (Model.Role == "Employer")
+                                    {
+                                        <span class="badge bg-success">Nhà tuyển dụng</span>
+                                    }
+                                </div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">Địa chỉ</div>
+                                <div class="info-value">@(Model.DiaChi ?? "Chưa cập nhật")</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">Ngày tạo</div>
+                                <div class="info-value">@Model.NgayTao.ToString("dd/MM/yyyy HH:mm")</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">Trạng thái</div>
+                                <div class="info-value">
+                                    @if (Model.IsActive)
+                                    {
+                                        <span class="badge bg-success">Hoạt động</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Đã khóa</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <a asp-action="Settings" class="btn btn-profile btn-profile-primary">
+                                <i class="bi bi-gear me-2"></i>Cài đặt tài khoản
+                            </a>
+                            @if (Context.Session.GetString("UserRole") == "Admin" || Context.Session.GetString("UserRole") == "Employer")
+                            {
+                                <a asp-action="Index" asp-controller="Home" asp-area="Admin" class="btn btn-profile btn-profile-secondary">
+                                    <i class="bi bi-house me-2"></i>Về trang Admin
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-action="Index" asp-controller="Home" class="btn btn-profile btn-profile-secondary">
+                                    <i class="bi bi-house me-2"></i>Về trang chủ
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

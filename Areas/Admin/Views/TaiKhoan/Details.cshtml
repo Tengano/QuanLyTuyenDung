@@ -1,0 +1,129 @@
+@model TrangChu.Models.TaiKhoan
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Chi tiết tài khoản</h2>
+    </div>
+    
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Thông tin tài khoản</h5>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>ID:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@Model.Id</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Họ và tên:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@Model.HoTen</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Email:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@Model.Email</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Số điện thoại:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@Model.SoDienThoai</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Địa chỉ:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.DiaChi ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Vai trò:</strong></label>
+                            <div class="col-sm-9">
+                                <span class="badge @(Model.Role == "Admin" ? "bg-danger" : Model.Role == "Employer" ? "bg-warning" : "bg-info")">
+                                    @(Model.Role == "Admin" ? "Quản trị viên" : Model.Role == "Employer" ? "Nhà tuyển dụng" : "Ứng viên")
+                                </span>
+                            </div>
+                        </div>
+                        
+                        @if (Model.Role == "Employer")
+                        {
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Công ty:</strong></label>
+                                <div class="col-sm-9">
+                                    @if (Model.NhaTuyenDung != null)
+                                    {
+                                        <p class="form-control-plaintext">
+                                            @Model.NhaTuyenDung.TenCongTy
+                                            <a asp-area="Admin" asp-controller="NhaTuyenDung" asp-action="Details" asp-route-id="@Model.NhaTuyenDung.Id" class="btn btn-sm btn-info ms-2">
+                                                <i class="bi bi-eye"></i> Xem chi tiết
+                                            </a>
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p class="form-control-plaintext text-danger">
+                                            <i class="bi bi-exclamation-triangle"></i> Chưa được gán công ty
+                                        </p>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Trạng thái:</strong></label>
+                            <div class="col-sm-9">
+                                <span class="badge @(Model.IsActive ? "bg-success" : "bg-danger")">
+                                    @(Model.IsActive ? "Hoạt động" : "Không hoạt động")
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Ngày tạo:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@Model.NgayTao.ToString("dd/MM/yyyy HH:mm")</p>
+                            </div>
+                        </div>
+                        
+                        @if (Model.NgayCapNhat.HasValue)
+                        {
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Ngày cập nhật:</strong></label>
+                                <div class="col-sm-9">
+                                    <p class="form-control-plaintext">@Model.NgayCapNhat.Value.ToString("dd/MM/yyyy HH:mm")</p>
+                                </div>
+                            </div>
+                        }
+                        
+                        <div class="row mb-3">
+                            <div class="col-sm-9 offset-sm-3">
+                                <a asp-area="Admin" asp-controller="TaiKhoan" asp-action="Index" class="btn btn-warning">
+                                    <i class="bi bi-arrow-left-circle"></i> Quay lại
+                                </a>
+                                <a asp-area="Admin" asp-controller="TaiKhoan" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                                    <i class="bi bi-pencil"></i> Sửa thông tin
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+

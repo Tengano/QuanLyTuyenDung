@@ -1,0 +1,203 @@
+@model TrangChu.Models.KetQuaPhongVan
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Chi tiết kết quả phỏng vấn</h2>
+    </div>
+    
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Thông tin kết quả phỏng vấn</h5>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>ID:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@Model.Id</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Quá trình phỏng vấn:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">
+                                    Ứng viên: @(Model.QuaTrinhPhongVan?.HoSoUngTuyen?.TaiKhoan?.HoTen ?? "-")
+                                </p>
+                                <small class="text-muted">Tin tuyển dụng: @(Model.QuaTrinhPhongVan?.HoSoUngTuyen?.TinTuyenDung?.TieuDe ?? "-")</small><br />
+                                <small class="text-muted">Công ty: @(Model.QuaTrinhPhongVan?.HoSoUngTuyen?.TinTuyenDung?.NhaTuyenDung?.TenCongTy ?? "-")</small><br />
+                                <small class="text-muted">Ngày phỏng vấn: @(Model.QuaTrinhPhongVan?.NgayPhongVan.ToString("dd/MM/yyyy") ?? "-")</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Kết quả:</strong></label>
+                            <div class="col-sm-9">
+                                @{
+                                    var resultClass = Model.KetQua switch
+                                    {
+                                        "Đạt" => "bg-success",
+                                        "Không đạt" => "bg-danger",
+                                        "Chờ quyết định" => "bg-warning",
+                                        _ => "bg-secondary"
+                                    };
+                                }
+                                <span class="badge @resultClass">@(Model.KetQua ?? "Chưa có kết quả")</span>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Điểm số:</strong></label>
+                            <div class="col-sm-9">
+                                @if (Model.DiemSo.HasValue)
+                                {
+                                    <p class="form-control-plaintext">
+                                        <span class="badge bg-info fs-6">@Model.DiemSo.Value.ToString("0.0") / 100</span>
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="form-control-plaintext text-muted">Chưa có điểm số</p>
+                                }
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Đánh giá:</strong></label>
+                            <div class="col-sm-9">
+                                <div class="border p-3 rounded bg-light">
+                                    @if (!string.IsNullOrEmpty(Model.DanhGia))
+                                    {
+                                        <p style="white-space: pre-wrap;">@Model.DanhGia</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted">Chưa có đánh giá</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Điểm mạnh:</strong></label>
+                            <div class="col-sm-9">
+                                <div class="border p-3 rounded bg-light">
+                                    @if (!string.IsNullOrEmpty(Model.DiemManh))
+                                    {
+                                        <p style="white-space: pre-wrap;">@Model.DiemManh</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted">Chưa có thông tin</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Điểm yếu:</strong></label>
+                            <div class="col-sm-9">
+                                <div class="border p-3 rounded bg-light">
+                                    @if (!string.IsNullOrEmpty(Model.DiemYeu))
+                                    {
+                                        <p style="white-space: pre-wrap;">@Model.DiemYeu</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted">Chưa có thông tin</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Khuyến nghị:</strong></label>
+                            <div class="col-sm-9">
+                                <div class="border p-3 rounded bg-light">
+                                    @if (!string.IsNullOrEmpty(Model.KhuyenNghi))
+                                    {
+                                        <p style="white-space: pre-wrap;">@Model.KhuyenNghi</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted">Chưa có khuyến nghị</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Người đánh giá:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.NguoiDanhGia ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Ngày đánh giá:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.NgayDanhGia?.ToString("dd/MM/yyyy") ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Ghi chú:</strong></label>
+                            <div class="col-sm-9">
+                                <div class="border p-3 rounded bg-light">
+                                    @if (!string.IsNullOrEmpty(Model.GhiChu))
+                                    {
+                                        <p style="white-space: pre-wrap;">@Model.GhiChu</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted">Chưa có ghi chú</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Ngày tạo:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@Model.NgayTao.ToString("dd/MM/yyyy HH:mm")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Ngày cập nhật:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.NgayCapNhat?.ToString("dd/MM/yyyy HH:mm") ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-sm-9 offset-sm-3">
+                                <a asp-area="Admin" asp-controller="KetQuaPhongVan" asp-action="Index" class="btn btn-secondary">
+                                    <i class="bi bi-arrow-left-circle"></i> Quay lại danh sách
+                                </a>
+                                <a asp-area="Admin" asp-controller="KetQuaPhongVan" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                                    <i class="bi bi-pencil"></i> Chỉnh sửa
+                                </a>
+                                <a asp-area="Admin" asp-controller="KetQuaPhongVan" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                                    <i class="bi bi-trash"></i> Xóa
+                                </a>
+                                @if (Model.QuaTrinhPhongVan != null)
+                                {
+                                    <a asp-area="Admin" asp-controller="QuaTrinhPhongVan" asp-action="Details" asp-route-id="@Model.QuaTrinhPhongVan.Id" class="btn btn-info">
+                                        <i class="bi bi-calendar"></i> Xem quá trình phỏng vấn
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+

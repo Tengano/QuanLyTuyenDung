@@ -1,0 +1,129 @@
+@using TrangChu.Models
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model QuaTrinhPhongVan
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var hoSoUngTuyenId = ViewBag.HoSoUngTuyenId?.ToString();
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Thêm lịch phỏng vấn</h2>
+    </div>
+    
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Thêm lịch phỏng vấn mới</h5>
+                        
+                        <form method="Post" asp-area="Admin" asp-controller="QuaTrinhPhongVan" asp-action="Create">
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Hồ sơ ứng tuyển <span class="text-danger">*</span></label>
+                                <div class="col-sm-10">
+                                    <select asp-for="HoSoUngTuyenId" class="form-select" asp-items="ViewBag.HoSoUngTuyenList" required>
+                                        <option value="">--- Chọn hồ sơ ứng tuyển ---</option>
+                                    </select>
+                                    <small class="form-text text-muted">Chỉ hiển thị các hồ sơ đã duyệt hoặc chờ xử lý.</small>
+                                    <span asp-validation-for="HoSoUngTuyenId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Ngày phỏng vấn <span class="text-danger">*</span></label>
+                                <div class="col-sm-10">
+                                    <input type="date" class="form-control" asp-for="NgayPhongVan" required />
+                                    <span asp-validation-for="NgayPhongVan" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Giờ phỏng vấn</label>
+                                <div class="col-sm-10">
+                                    <input type="time" class="form-control" asp-for="GioPhongVan" />
+                                    <span asp-validation-for="GioPhongVan" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Địa điểm</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" asp-for="DiaDiem" placeholder="Nhập địa điểm phỏng vấn..." />
+                                    <small class="form-text text-muted">Ví dụ: Phòng họp A, tầng 3 hoặc Link Zoom/Google Meet</small>
+                                    <span asp-validation-for="DiaDiem" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Người phỏng vấn</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" asp-for="NguoiPhongVan" placeholder="Nhập tên người phỏng vấn..." />
+                                    <span asp-validation-for="NguoiPhongVan" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Hình thức phỏng vấn</label>
+                                <div class="col-sm-10">
+                                    <select asp-for="HinhThuc" class="form-select">
+                                        <option value="">--- Chọn hình thức ---</option>
+                                        <option value="Trực tiếp">Trực tiếp</option>
+                                        <option value="Online">Online</option>
+                                        <option value="Phone">Phone</option>
+                                    </select>
+                                    <span asp-validation-for="HinhThuc" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Trạng thái</label>
+                                <div class="col-sm-10">
+                                    <select asp-for="TrangThai" class="form-select">
+                                        <option value="Đã lên lịch">Đã lên lịch</option>
+                                        <option value="Đã hoàn thành">Đã hoàn thành</option>
+                                        <option value="Đã hủy">Đã hủy</option>
+                                    </select>
+                                    <span asp-validation-for="TrangThai" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Ghi chú</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" asp-for="GhiChu" rows="4" placeholder="Nhập ghi chú về buổi phỏng vấn..."></textarea>
+                                    <span asp-validation-for="GhiChu" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-sm-10 offset-sm-2">
+                                    <a asp-area="Admin" asp-controller="QuaTrinhPhongVan" asp-action="Index" class="btn btn-warning">
+                                        <i class="bi bi-arrow-left-circle"></i> Quay lại
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-save"></i> Lưu thông tin
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @if (!string.IsNullOrEmpty(hoSoUngTuyenId))
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('HoSoUngTuyenId').value = '@hoSoUngTuyenId';
+            });
+        </script>
+    }
+}
+

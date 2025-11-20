@@ -1,0 +1,87 @@
+@model TrangChu.Models.TinTuyenDung
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Xóa tin tuyển dụng</h2>
+    </div>
+    
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Xác nhận xóa</h5>
+                        <p class="text-danger">Bạn có chắc chắn muốn xóa tin tuyển dụng này? Hành động này không thể hoàn tác.</p>
+                        
+                        @if (ViewBag.HasHoSoUngTuyen == true && Model.HoSoUngTuyens != null && Model.HoSoUngTuyens.Any())
+                        {
+                            var count = Model.HoSoUngTuyens.Count();
+                            <div class="alert alert-warning">
+                                <h6><i class="bi bi-exclamation-triangle"></i> Cảnh báo</h6>
+                                <p>Tin tuyển dụng này có <strong>@count</strong> hồ sơ ứng tuyển liên quan. Không thể xóa.</p>
+                                <p class="mb-0">Vui lòng xóa hoặc chuyển các hồ sơ ứng tuyển trước khi xóa tin tuyển dụng này.</p>
+                            </div>
+                        }
+                        
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger">
+                                <i class="bi bi-exclamation-circle"></i> @TempData["ErrorMessage"]
+                            </div>
+                        }
+                        
+                        <form asp-area="Admin" asp-controller="TinTuyenDung" asp-action="Delete" method="Post">
+                            <input type="hidden" asp-for="Id" />
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>ID:</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="@Model.Id" disabled />
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Tiêu đề:</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="@Model.TieuDe" disabled />
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Nhà tuyển dụng:</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="@(Model.NhaTuyenDung?.TenCongTy ?? "-")" disabled />
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-sm-9 offset-sm-3">
+                                    <a asp-area="Admin" asp-controller="TinTuyenDung" asp-action="Index" class="btn btn-warning">
+                                        <i class="bi bi-arrow-left-circle"></i> Hủy
+                                    </a>
+                                    @if (ViewBag.HasHoSoUngTuyen != true)
+                                    {
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa tin tuyển dụng này? Hành động này không thể hoàn tác.');">
+                                            <i class="bi bi-trash"></i> Xóa
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" disabled title="Không thể xóa khi có hồ sơ ứng tuyển liên quan">
+                                            <i class="bi bi-trash"></i> Xóa
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+

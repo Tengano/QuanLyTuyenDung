@@ -1,0 +1,183 @@
+@using TrangChu.Models
+@model IEnumerable<TinTuyenDung>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Tin Tuyển Dụng";
+}
+
+<main id="main">
+
+    <section id="hero" class="hero section">
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div class="row align-items-center">
+                <div class="col-lg-12 text-center" data-aos="fade-up" data-aos-delay="200">
+                    <h1 class="hero-title">TÌM KIẾM VIỆC LÀM</h1>
+                    <p class="hero-description">Khám phá hàng ngàn cơ hội việc làm hấp dẫn</p>
+                    
+                    <form method="get" action="@Url.Action("Index", "TinTuyenDung")" class="search-form mt-4">
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-md-4">
+                                <input type="text" name="search" class="form-control form-control-lg" 
+                                       placeholder="Tìm kiếm công việc..." value="@ViewBag.Search">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" name="location" class="form-control form-control-lg" 
+                                       placeholder="Địa điểm..." value="@ViewBag.Location">
+                            </div>
+                            <div class="col-md-3">
+                                <select name="experience" class="form-control form-control-lg">
+                                    <option value="">Tất cả kinh nghiệm</option>
+                                    @{
+                                        var expSelected = ViewBag.Experience as string;
+                                    }
+                                    @if (expSelected == "Không yêu cầu")
+                                    {
+                                        <option value="Không yêu cầu" selected>Không yêu cầu</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Không yêu cầu">Không yêu cầu</option>
+                                    }
+                                    @if (expSelected == "1-2 năm")
+                                    {
+                                        <option value="1-2 năm" selected>1-2 năm</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="1-2 năm">1-2 năm</option>
+                                    }
+                                    @if (expSelected == "3-5 năm")
+                                    {
+                                        <option value="3-5 năm" selected>3-5 năm</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="3-5 năm">3-5 năm</option>
+                                    }
+                                    @if (expSelected == "5+ năm")
+                                    {
+                                        <option value="5+ năm" selected>5+ năm</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="5+ năm">5+ năm</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">
+                                    <i class="bi bi-search"></i> Tìm kiếm
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="jobs" class="jobs section">
+        <div class="container" data-aos="fade-up">
+            <div class="section-title text-center mb-5">
+                <h2>Tin Tuyển Dụng</h2>
+                <p>Danh sách các vị trí tuyển dụng mới nhất</p>
+            </div>
+
+            @if (Model != null && Model.Any())
+            {
+                <div class="row g-4">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                            <div class="job-card card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <div>
+                                            <h4 class="card-title mb-2">
+                                                <a href="@Url.Action("Details", "TinTuyenDung", new { id = item.Id })" class="text-decoration-none">
+                                                    @item.TieuDe
+                                                </a>
+                                            </h4>
+                                            <p class="text-muted mb-2">
+                                                <i class="bi bi-building"></i> @(item.NhaTuyenDung?.TenCongTy ?? "N/A")
+                                            </p>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(item.MucLuong))
+                                        {
+                                            <span class="badge bg-success">@item.MucLuong</span>
+                                        }
+                                    </div>
+                                    
+                                    <div class="job-info mb-3">
+                                        @if (!string.IsNullOrEmpty(item.DiaDiemLamViec))
+                                        {
+                                            <p class="mb-2">
+                                                <i class="bi bi-geo-alt"></i> @item.DiaDiemLamViec
+                                            </p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.KinhNghiem))
+                                        {
+                                            <p class="mb-2">
+                                                <i class="bi bi-briefcase"></i> @item.KinhNghiem
+                                            </p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.HocVan))
+                                        {
+                                            <p class="mb-2">
+                                                <i class="bi bi-mortarboard"></i> @item.HocVan
+                                            </p>
+                                        }
+                                    </div>
+
+                                    @if (!string.IsNullOrEmpty(item.MoTaCongViec))
+                                    {
+                                        <p class="card-text text-muted">
+                                            @(item.MoTaCongViec.Length > 150 ? item.MoTaCongViec.Substring(0, 150) + "..." : item.MoTaCongViec)
+                                        </p>
+                                    }
+
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar"></i> @item.NgayTao.ToString("dd/MM/yyyy")
+                                        </small>
+                                        <a href="@Url.Action("Details", "TinTuyenDung", new { id = item.Id })" 
+                                           class="btn btn-primary btn-sm">
+                                            Xem chi tiết
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <p class="lead">Không tìm thấy tin tuyển dụng nào.</p>
+                    <a href="@Url.Action("Index", "TinTuyenDung")" class="btn btn-primary">Xem tất cả tin tuyển dụng</a>
+                </div>
+            }
+        </div>
+    </section>
+
+</main>
+
+<style>
+    .job-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #e0e0e0;
+    }
+
+    .job-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .search-form {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+</style>
+

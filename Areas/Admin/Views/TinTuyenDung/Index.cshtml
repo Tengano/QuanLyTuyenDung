@@ -1,0 +1,86 @@
+@using TrangChu.Models
+@model IList<TinTuyenDung>
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Quản lý tin tuyển dụng</h2>
+        <p>
+            <a type="button" class="btn btn-success" asp-area="Admin" asp-controller="TinTuyenDung" asp-action="Create">
+                <i class="bi bi-file-earmark-text me-1"></i>Thêm tin tuyển dụng
+            </a>
+        </p>
+    </div>
+    
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle"></i> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-12">
+                <div class="card recent-sales overflow-auto">
+                    <div class="card-body mt-4">
+                        <table class="table table-borderless datatable">
+                            <thead>
+                                <tr>
+                                    <th class="col-1 text-center">ID</th>
+                                    <th class="col-3 text-center">Tiêu đề</th>
+                                    <th class="col-2 text-center">Nhà tuyển dụng</th>
+                                    <th class="col-2 text-center">Mức lương</th>
+                                    <th class="col-1 text-center">Số lượng</th>
+                                    <th class="col-1 text-center">Trạng thái</th>
+                                    <th class="col-2 text-center">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var item in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center" scope="row">@item.Id</td>
+                                        <td class="text-left" scope="row">@item.TieuDe</td>
+                                        <td class="text-left" scope="row">@(item.NhaTuyenDung?.TenCongTy ?? "-")</td>
+                                        <td class="text-left" scope="row">@(item.MucLuong ?? "-")</td>
+                                        <td class="text-center" scope="row">@(item.SoLuongTuyen ?? 0)</td>
+                                        <td class="text-center" scope="row">
+                                            <span class="badge @(item.IsActive ? "bg-success" : "bg-danger")">
+                                                @(item.IsActive ? "Hoạt động" : "Không hoạt động")
+                                            </span>
+                                        </td>
+                                        <td class="text-center" scope="row">
+                                            <a asp-area="Admin" asp-controller="TinTuyenDung" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm" title="Xem chi tiết">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a asp-area="Admin" asp-controller="TinTuyenDung" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm" title="Sửa">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <a asp-area="Admin" asp-controller="TinTuyenDung" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm" title="Xóa">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+

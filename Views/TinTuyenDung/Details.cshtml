@@ -1,0 +1,451 @@
+@using TrangChu.Models
+@model TinTuyenDung
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = Model.TieuDe;
+}
+
+<main id="main">
+
+    <section id="job-details" class="job-details section">
+        <div class="container" data-aos="fade-up">
+            
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle"></i> @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-circle"></i> @TempData["ErrorMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="job-header mb-4">
+                        <h1>@Model.TieuDe</h1>
+                        <div class="job-meta mt-3">
+                            <p class="mb-2">
+                                <i class="bi bi-building"></i> <strong>@(Model.NhaTuyenDung?.TenCongTy ?? "N/A")</strong>
+                            </p>
+                            @if (!string.IsNullOrEmpty(Model.DiaDiemLamViec))
+                            {
+                                <p class="mb-2">
+                                    <i class="bi bi-geo-alt"></i> @Model.DiaDiemLamViec
+                                </p>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.MucLuong))
+                            {
+                                <p class="mb-2">
+                                    <i class="bi bi-cash-coin"></i> @Model.MucLuong
+                                </p>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.KinhNghiem))
+                            {
+                                <p class="mb-2">
+                                    <i class="bi bi-briefcase"></i> @Model.KinhNghiem
+                                </p>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.HocVan))
+                            {
+                                <p class="mb-2">
+                                    <i class="bi bi-mortarboard"></i> @Model.HocVan
+                                </p>
+                            }
+                            @if (Model.HanNopHoSo.HasValue)
+                            {
+                                <p class="mb-2">
+                                    <i class="bi bi-calendar-event"></i> Hạn nộp: @Model.HanNopHoSo.Value.ToString("dd/MM/yyyy")
+                                </p>
+                            }
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.MoTaCongViec))
+                    {
+                        <div class="job-section mb-4">
+                            <h3><i class="bi bi-file-text"></i> Mô tả công việc</h3>
+                            <div class="content">
+                                @Html.Raw(Model.MoTaCongViec.Replace("\n", "<br>"))
+                            </div>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.YeuCau))
+                    {
+                        <div class="job-section mb-4">
+                            <h3><i class="bi bi-check-circle"></i> Yêu cầu</h3>
+                            <div class="content">
+                                @Html.Raw(Model.YeuCau.Replace("\n", "<br>"))
+                            </div>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.QuyenLoi))
+                    {
+                        <div class="job-section mb-4">
+                            <h3><i class="bi bi-gift"></i> Quyền lợi</h3>
+                            <div class="content">
+                                @Html.Raw(Model.QuyenLoi.Replace("\n", "<br>"))
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="job-apply-card card sticky-top" style="top: 20px;">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4">Ứng tuyển ngay</h4>
+                            
+                            @{
+                                var currentUserId = Context.Session.GetInt32("UserId");
+                                var daUngTuyen = ViewBag.DaUngTuyen as bool? ?? false;
+                            }
+                            
+                            @if (daUngTuyen && currentUserId != null)
+                            {
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle"></i> Bạn đã ứng tuyển cho vị trí này.
+                                </div>
+                            }
+                            else if (currentUserId == null)
+                            {
+                                <p class="mb-3">Vui lòng đăng nhập để ứng tuyển.</p>
+                                <a href="@Url.Action("Login", "Account")" class="btn btn-primary w-100 mb-2">
+                                    Đăng nhập
+                                </a>
+                                <a href="@Url.Action("Register", "Account")" class="btn btn-outline-primary w-100">
+                                    Đăng ký
+                                </a>
+                            }
+                            else
+                            {
+                                <form method="post" action="@Url.Action("Apply", "TinTuyenDung")">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="tinTuyenDungId" value="@Model.Id" />
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Họ và tên *</label>
+                                        <input type="text" name="hoTen" class="form-control" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Email *</label>
+                                        <input type="email" name="email" class="form-control" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Số điện thoại *</label>
+                                        <input type="tel" name="soDienThoai" class="form-control" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Link CV/Resume</label>
+                                        <input type="url" name="cvUrl" class="form-control" placeholder="https://...">
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Thư xin việc</label>
+                                        <textarea name="thuXinViec" class="form-control" rows="5" 
+                                                  placeholder="Giới thiệu về bản thân và lý do ứng tuyển..."></textarea>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="bi bi-send"></i> Gửi đơn ứng tuyển
+                                    </button>
+                                </form>
+                            }
+
+                            <hr class="my-4">
+
+                            <div class="job-info-sidebar">
+                                <h5>Thông tin nhanh</h5>
+                                <ul class="list-unstyled">
+                                    <li><i class="bi bi-calendar"></i> Ngày đăng: @Model.NgayTao.ToString("dd/MM/yyyy")</li>
+                                    @if (Model.SoLuongTuyen.HasValue)
+                                    {
+                                        <li><i class="bi bi-people"></i> Số lượng: @Model.SoLuongTuyen người</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<style>
+    .job-details.section {
+        padding: 100px 0 60px;
+        background: linear-gradient(135deg, #f0f6f5 0%, #ffffff 100%);
+        min-height: 100vh;
+    }
+
+    .job-header {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        margin-bottom: 30px;
+    }
+
+    .job-header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #193838;
+        margin-bottom: 20px;
+        line-height: 1.3;
+    }
+
+    .job-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .job-meta p {
+        margin: 0;
+        color: #3b5353;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .job-meta i {
+        color: #00a19e;
+        font-size: 18px;
+        width: 20px;
+    }
+
+    .job-meta strong {
+        color: #193838;
+        font-weight: 600;
+    }
+
+    .job-section {
+        padding: 25px 30px;
+        background: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+        margin-bottom: 25px;
+        border-left: 4px solid #00a19e;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .job-section:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .job-section h3 {
+        color: #193838;
+        margin-bottom: 20px;
+        font-size: 22px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .job-section h3::before {
+        content: '';
+        width: 4px;
+        height: 24px;
+        background: linear-gradient(135deg, #00a19e 0%, #00d4d0 100%);
+        border-radius: 2px;
+    }
+
+    .job-section .content {
+        color: #3b5353;
+        line-height: 1.8;
+        font-size: 15px;
+    }
+
+    .job-section .content p {
+        margin-bottom: 12px;
+    }
+
+    .job-apply-card {
+        background: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+        border: none;
+        overflow: hidden;
+    }
+
+    .job-apply-card .card-body {
+        padding: 30px;
+    }
+
+    .job-apply-card .card-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #193838;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f0f6f5;
+    }
+
+    .job-apply-card .form-label {
+        font-weight: 600;
+        color: #193838;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .job-apply-card .form-control {
+        border: 2px solid #e0eceb;
+        border-radius: 10px;
+        padding: 12px 15px;
+        font-size: 14px;
+        transition: all 0.3s;
+        background: #ffffff;
+    }
+
+    .job-apply-card .form-control:focus {
+        border-color: #00a19e;
+        box-shadow: 0 0 0 0.2rem rgba(0, 161, 158, 0.15);
+        background: #ffffff;
+    }
+
+    .job-apply-card textarea.form-control {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .job-apply-card .btn-primary {
+        background: linear-gradient(135deg, #00a19e 0%, #00d4d0 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 14px 20px;
+        font-weight: 600;
+        font-size: 15px;
+        transition: all 0.3s;
+        margin-top: 10px;
+    }
+
+    .job-apply-card .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 161, 158, 0.3);
+        background: linear-gradient(135deg, #008885 0%, #00a19e 100%);
+    }
+
+    .job-apply-card .btn-primary i {
+        margin-right: 8px;
+    }
+
+    .job-apply-card .btn-outline-primary {
+        border: 2px solid #00a19e;
+        color: #00a19e;
+        border-radius: 10px;
+        padding: 12px 20px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+
+    .job-apply-card .btn-outline-primary:hover {
+        background: #00a19e;
+        color: #ffffff;
+        transform: translateY(-2px);
+    }
+
+    .job-apply-card .alert {
+        border-radius: 10px;
+        border: none;
+        padding: 15px 20px;
+        margin-bottom: 20px;
+    }
+
+    .job-apply-card .alert-info {
+        background: rgba(13, 202, 240, 0.1);
+        color: #0dcaf0;
+    }
+
+    .job-info-sidebar {
+        margin-top: 25px;
+        padding-top: 25px;
+        border-top: 2px solid #f0f6f5;
+    }
+
+    .job-info-sidebar h5 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #193838;
+        margin-bottom: 20px;
+    }
+
+    .job-info-sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .job-info-sidebar li {
+        padding: 12px 0;
+        color: #3b5353;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid #f0f6f5;
+    }
+
+    .job-info-sidebar li:last-child {
+        border-bottom: none;
+    }
+
+    .job-info-sidebar li i {
+        color: #00a19e;
+        font-size: 18px;
+        width: 20px;
+    }
+
+    @@media (max-width: 991px) {
+        .job-apply-card {
+            margin-top: 30px;
+        }
+
+        .job-header h1 {
+            font-size: 26px;
+        }
+
+        .job-meta {
+            flex-direction: column;
+            gap: 12px;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .job-details.section {
+            padding: 80px 0 40px;
+        }
+
+        .job-header {
+            padding: 20px;
+        }
+
+        .job-header h1 {
+            font-size: 22px;
+        }
+
+        .job-section {
+            padding: 20px;
+        }
+
+        .job-apply-card .card-body {
+            padding: 20px;
+        }
+    }
+</style>
+

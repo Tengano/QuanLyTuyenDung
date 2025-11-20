@@ -1,0 +1,171 @@
+@model TrangChu.Models.QuaTrinhPhongVan
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Chi tiết quá trình phỏng vấn</h2>
+    </div>
+    
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Thông tin quá trình phỏng vấn</h5>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>ID:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@Model.Id</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Hồ sơ ứng tuyển:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.HoSoUngTuyen?.TaiKhoan?.HoTen ?? "-")</p>
+                                <small class="text-muted">Tin tuyển dụng: @(Model.HoSoUngTuyen?.TinTuyenDung?.TieuDe ?? "-")</small><br />
+                                <small class="text-muted">Công ty: @(Model.HoSoUngTuyen?.TinTuyenDung?.NhaTuyenDung?.TenCongTy ?? "-")</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Ngày phỏng vấn:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@Model.NgayPhongVan.ToString("dd/MM/yyyy")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Giờ phỏng vấn:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.GioPhongVan?.ToString(@"hh\:mm") ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Địa điểm:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.DiaDiem ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Người phỏng vấn:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.NguoiPhongVan ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Hình thức phỏng vấn:</strong></label>
+                            <div class="col-sm-9">
+                                <span class="badge bg-info">@(Model.HinhThuc ?? "-")</span>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Trạng thái:</strong></label>
+                            <div class="col-sm-9">
+                                @{
+                                    var statusClass = Model.TrangThai switch
+                                    {
+                                        "Đã hoàn thành" => "bg-success",
+                                        "Đã hủy" => "bg-danger",
+                                        "Đã lên lịch" => "bg-warning",
+                                        _ => "bg-secondary"
+                                    };
+                                }
+                                <span class="badge @statusClass">@(Model.TrangThai ?? "Đã lên lịch")</span>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Ghi chú:</strong></label>
+                            <div class="col-sm-9">
+                                <div class="border p-3 rounded bg-light">
+                                    @if (!string.IsNullOrEmpty(Model.GhiChu))
+                                    {
+                                        <p style="white-space: pre-wrap;">@Model.GhiChu</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted">Chưa có ghi chú</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Ngày tạo:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@Model.NgayTao.ToString("dd/MM/yyyy HH:mm")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Ngày cập nhật:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.NgayCapNhat?.ToString("dd/MM/yyyy HH:mm") ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        @if (Model.KetQuaPhongVan != null)
+                        {
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Kết quả phỏng vấn:</strong></label>
+                                <div class="col-sm-9">
+                                    <div class="alert alert-info">
+                                        <p><strong>Kết quả:</strong> @(Model.KetQuaPhongVan.KetQua ?? "-")</p>
+                                        <p><strong>Điểm số:</strong> @(Model.KetQuaPhongVan.DiemSo?.ToString() ?? "-")</p>
+                                        <a asp-area="Admin" asp-controller="KetQuaPhongVan" asp-action="Details" asp-route-id="@Model.KetQuaPhongVan.Id" class="btn btn-sm btn-info">
+                                            <i class="bi bi-eye"></i> Xem chi tiết kết quả
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else if (Model.TrangThai == "Đã hoàn thành")
+                        {
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Kết quả phỏng vấn:</strong></label>
+                                <div class="col-sm-9">
+                                    <div class="alert alert-warning">
+                                        <p>Chưa có kết quả phỏng vấn. Vui lòng tạo kết quả phỏng vấn.</p>
+                                        <a asp-area="Admin" asp-controller="KetQuaPhongVan" asp-action="Create" class="btn btn-sm btn-success">
+                                            <i class="bi bi-plus-circle"></i> Tạo kết quả phỏng vấn
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        
+                        <div class="row mb-3">
+                            <div class="col-sm-9 offset-sm-3">
+                                <a asp-area="Admin" asp-controller="QuaTrinhPhongVan" asp-action="Index" class="btn btn-secondary">
+                                    <i class="bi bi-arrow-left-circle"></i> Quay lại danh sách
+                                </a>
+                                <a asp-area="Admin" asp-controller="QuaTrinhPhongVan" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                                    <i class="bi bi-pencil"></i> Chỉnh sửa
+                                </a>
+                                <a asp-area="Admin" asp-controller="QuaTrinhPhongVan" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                                    <i class="bi bi-trash"></i> Xóa
+                                </a>
+                                @if (Model.TrangThai == "Đã hoàn thành" && Model.KetQuaPhongVan == null)
+                                {
+                                    <a asp-area="Admin" asp-controller="KetQuaPhongVan" asp-action="Create" class="btn btn-success">
+                                        <i class="bi bi-check-circle"></i> Tạo kết quả phỏng vấn
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+

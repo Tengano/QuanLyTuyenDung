@@ -1,0 +1,87 @@
+@model TrangChu.Models.KetQuaPhongVan
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Xóa kết quả phỏng vấn</h2>
+    </div>
+    
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Xác nhận xóa</h5>
+                        <p class="text-danger">Bạn có chắc chắn muốn xóa kết quả phỏng vấn này? Hành động này không thể hoàn tác.</p>
+                        
+                        <div class="alert alert-info">
+                            <h6><i class="bi bi-info-circle"></i> Thông tin</h6>
+                            <p>Kết quả phỏng vấn này có thể được xóa an toàn.</p>
+                        </div>
+                        
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger">
+                                <i class="bi bi-exclamation-circle"></i> @TempData["ErrorMessage"]
+                            </div>
+                        }
+                        
+                        <form asp-area="Admin" asp-controller="KetQuaPhongVan" asp-action="Delete" method="Post">
+                            <input type="hidden" asp-for="Id" />
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>ID:</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="@Model.Id" disabled />
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Ứng viên:</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="@(Model.QuaTrinhPhongVan?.HoSoUngTuyen?.TaiKhoan?.HoTen ?? "-")" disabled />
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Tin tuyển dụng:</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="@(Model.QuaTrinhPhongVan?.HoSoUngTuyen?.TinTuyenDung?.TieuDe ?? "-")" disabled />
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Kết quả:</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="@(Model.KetQua ?? "Chưa có kết quả")" disabled />
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Điểm số:</strong></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="@(Model.DiemSo?.ToString() ?? "-")" disabled />
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-sm-9 offset-sm-3">
+                                    <a asp-area="Admin" asp-controller="KetQuaPhongVan" asp-action="Index" class="btn btn-warning">
+                                        <i class="bi bi-arrow-left-circle"></i> Hủy
+                                    </a>
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="bi bi-trash"></i> Xóa
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+

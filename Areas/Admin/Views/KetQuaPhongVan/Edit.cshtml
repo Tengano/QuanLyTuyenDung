@@ -1,0 +1,134 @@
+@using TrangChu.Models
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model KetQuaPhongVan
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Chỉnh sửa kết quả phỏng vấn</h2>
+    </div>
+    
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Chỉnh sửa kết quả phỏng vấn</h5>
+                        
+                        <form method="Post" asp-area="Admin" asp-controller="KetQuaPhongVan" asp-action="Edit">
+                            <input type="hidden" asp-for="Id" />
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Quá trình phỏng vấn <span class="text-danger">*</span></label>
+                                <div class="col-sm-10">
+                                    <select asp-for="QuaTrinhPhongVanId" class="form-select" asp-items="ViewBag.QuaTrinhPhongVanList" required>
+                                        <option value="">--- Chọn quá trình phỏng vấn ---</option>
+                                    </select>
+                                    <small class="form-text text-muted">Chỉ hiển thị các quá trình phỏng vấn đã hoàn thành và chưa có kết quả.</small>
+                                    <span asp-validation-for="QuaTrinhPhongVanId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Kết quả</label>
+                                <div class="col-sm-10">
+                                    <select asp-for="KetQua" class="form-select">
+                                        <option value="Chưa có kết quả">Chưa có kết quả</option>
+                                        <option value="Đạt">Đạt</option>
+                                        <option value="Không đạt">Không đạt</option>
+                                        <option value="Chờ quyết định">Chờ quyết định</option>
+                                    </select>
+                                    <span asp-validation-for="KetQua" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Điểm số</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" asp-for="DiemSo" min="0" max="100" step="0.1" placeholder="Nhập điểm số (0-100)..." value="@(Model.DiemSo?.ToString() ?? "")" />
+                                    <small class="form-text text-muted">Điểm số từ 0 đến 100.</small>
+                                    <span asp-validation-for="DiemSo" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Đánh giá</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" asp-for="DanhGia" rows="4" placeholder="Nhập đánh giá tổng quan về ứng viên...">@Model.DanhGia</textarea>
+                                    <span asp-validation-for="DanhGia" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Điểm mạnh</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" asp-for="DiemManh" rows="3" placeholder="Nhập các điểm mạnh của ứng viên...">@Model.DiemManh</textarea>
+                                    <span asp-validation-for="DiemManh" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Điểm yếu</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" asp-for="DiemYeu" rows="3" placeholder="Nhập các điểm yếu của ứng viên...">@Model.DiemYeu</textarea>
+                                    <span asp-validation-for="DiemYeu" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Khuyến nghị</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" asp-for="KhuyenNghi" rows="3" placeholder="Nhập khuyến nghị...">@Model.KhuyenNghi</textarea>
+                                    <span asp-validation-for="KhuyenNghi" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Người đánh giá</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" asp-for="NguoiDanhGia" placeholder="Nhập tên người đánh giá..." />
+                                    <span asp-validation-for="NguoiDanhGia" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Ngày đánh giá</label>
+                                <div class="col-sm-10">
+                                    <input type="date" class="form-control" asp-for="NgayDanhGia" value="@(Model.NgayDanhGia?.ToString("yyyy-MM-dd") ?? "")" />
+                                    <span asp-validation-for="NgayDanhGia" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Ghi chú</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" asp-for="GhiChu" rows="3" placeholder="Nhập ghi chú...">@Model.GhiChu</textarea>
+                                    <span asp-validation-for="GhiChu" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-sm-10 offset-sm-2">
+                                    <a asp-area="Admin" asp-controller="KetQuaPhongVan" asp-action="Index" class="btn btn-warning">
+                                        <i class="bi bi-arrow-left-circle"></i> Quay lại
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-save"></i> Lưu thông tin
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

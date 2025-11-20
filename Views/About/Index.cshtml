@@ -1,0 +1,69 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Giới thiệu";
+}
+
+<main id="main">
+
+    <section class="section hero inner-hero light-background">
+        <div class="container" data-aos="fade-up">
+            <div class="row align-items-center gy-4">
+                <div class="col-lg-6">
+                    <span class="section-category text-uppercase text-primary fw-semibold">Giới thiệu</span>
+                    <h1 class="display-5 fw-bold mt-3 mb-4">Kết nối ứng viên và doanh nghiệp hiệu quả</h1>
+                    <p class="lead text-muted">
+                        Tuyển dụng Doily là nền tảng giúp nhà tuyển dụng tìm được nhân sự phù hợp và hỗ trợ ứng viên tiếp cận
+                        cơ hội nghề nghiệp chỉ với vài cú click.
+                    </p>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="~/assets/img/illustration/illustration-07.webp" class="img-fluid" alt="About Doily">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container" data-aos="fade-up">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="info-card h-100 p-4 border rounded-3">
+                        <h3 class="h5">Sứ mệnh</h3>
+                        <p class="text-muted mb-0">Mang tới trải nghiệm tuyển dụng minh bạch, nhanh chóng,
+                            hỗ trợ cả doanh nghiệp lẫn người tìm việc.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-card h-100 p-4 border rounded-3">
+                        <h3 class="h5">Giá trị</h3>
+                        <p class="text-muted mb-0">Đặt người dùng làm trung tâm, tối ưu công nghệ và bảo mật dữ liệu tuyệt đối.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-card h-100 p-4 border rounded-3">
+                        <h3 class="h5">Tầm nhìn</h3>
+                        <p class="text-muted mb-0">Trở thành nền tảng tuyển dụng hàng đầu dành cho doanh nghiệp Việt Nam.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section light-background">
+        <div class="container" data-aos="fade-up">
+            <div class="row gy-4">
+                <div class="col-lg-5">
+                    <h2 class="h3 mb-3">Bạn cần hỗ trợ?</h2>
+                    <p class="text-muted">Liên hệ với chúng tôi để được tư vấn triển khai tuyển dụng.</p>
+                </div>
+                <div class="col-lg-7 text-lg-end">
+                    <a class="btn btn-primary btn-lg me-3" href="@Url.Action("Index", "Contact")">Liên hệ ngay</a>
+                    <a class="btn btn-outline-primary btn-lg" href="@Url.Action("Index", "TinTuyenDung")">Xem việc làm</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+

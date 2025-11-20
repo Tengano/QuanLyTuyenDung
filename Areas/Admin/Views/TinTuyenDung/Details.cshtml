@@ -1,0 +1,178 @@
+@model TrangChu.Models.TinTuyenDung
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Chi tiết tin tuyển dụng</h2>
+    </div>
+    
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Thông tin tin tuyển dụng</h5>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>ID:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@Model.Id</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Nhà tuyển dụng:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">
+                                    @(Model.NhaTuyenDung != null ? Model.NhaTuyenDung.TenCongTy : "-")
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Tiêu đề:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@Model.TieuDe</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Mô tả công việc:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.MoTaCongViec ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Yêu cầu:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.YeuCau ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Quyền lợi:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.QuyenLoi ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Mức lương:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.MucLuong ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Địa điểm làm việc:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.DiaDiemLamViec ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Kinh nghiệm:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.KinhNghiem ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Học vấn:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.HocVan ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Số lượng tuyển:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.SoLuongTuyen?.ToString() ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Hạn nộp hồ sơ:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@(Model.HanNopHoSo?.ToString("dd/MM/yyyy") ?? "-")</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Trạng thái:</strong></label>
+                            <div class="col-sm-9">
+                                <span class="badge @(Model.IsActive ? "bg-success" : "bg-danger")">
+                                    @(Model.IsActive ? "Hoạt động" : "Không hoạt động")
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong>Ngày tạo:</strong></label>
+                            <div class="col-sm-9">
+                                <p class="form-control-plaintext">@Model.NgayTao.ToString("dd/MM/yyyy HH:mm")</p>
+                            </div>
+                        </div>
+                        
+                        @if (Model.NgayCapNhat.HasValue)
+                        {
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Ngày cập nhật:</strong></label>
+                                <div class="col-sm-9">
+                                    <p class="form-control-plaintext">@Model.NgayCapNhat.Value.ToString("dd/MM/yyyy HH:mm")</p>
+                                </div>
+                            </div>
+                        }
+                        
+                        @if (Model.HoSoUngTuyens != null && Model.HoSoUngTuyens.Any())
+                        {
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label"><strong>Hồ sơ ứng tuyển:</strong></label>
+                                <div class="col-sm-9">
+                                    <div class="alert alert-info">
+                                        <p class="mb-2"><strong>@Model.HoSoUngTuyens.Count() hồ sơ ứng tuyển</strong></p>
+                                        <ul class="list-unstyled mb-0">
+                                            @foreach (var hoSo in Model.HoSoUngTuyens.Take(5))
+                                            {
+                                                <li>
+                                                    <i class="bi bi-file-earmark-person"></i> 
+                                                    <a asp-area="Admin" asp-controller="HoSoUngTuyen" asp-action="Details" asp-route-id="@hoSo.Id" target="_blank">
+                                                        @(hoSo.HoTen ?? hoSo.TaiKhoan?.HoTen ?? "N/A")
+                                                    </a>
+                                                    <span class="badge bg-info ms-2">@(hoSo.TrangThai ?? "N/A")</span>
+                                                </li>
+                                            }
+                                            @if (Model.HoSoUngTuyens.Count() > 5)
+                                            {
+                                                <li class="text-muted">... và @(Model.HoSoUngTuyens.Count() - 5) hồ sơ khác</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        
+                        <div class="row mb-3">
+                            <div class="col-sm-9 offset-sm-3">
+                                <a asp-area="Admin" asp-controller="TinTuyenDung" asp-action="Index" class="btn btn-secondary">
+                                    <i class="bi bi-arrow-left-circle"></i> Quay lại
+                                </a>
+                                <a asp-area="Admin" asp-controller="TinTuyenDung" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                                    <i class="bi bi-pencil"></i> Sửa
+                                </a>
+                                <a asp-area="Admin" asp-controller="TinTuyenDung" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                                    <i class="bi bi-trash"></i> Xóa
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+

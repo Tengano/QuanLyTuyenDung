@@ -1,0 +1,111 @@
+@using TrangChu.Models;
+@using System.Linq;
+@model IList<HoSoUngTuyen>
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h2>Danh sách hồ sơ ứng tuyển</h2>
+
+        <p>
+            <a type="button" class="btn btn-success" asp-area="Admin" asp-controller="HoSoUngTuyen" asp-action="Create">
+                <i class="bi bi-file-earmark-text me-1"></i>Thêm hồ sơ ứng tuyển
+            </a>
+        </p>
+    </div>
+    
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle"></i> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-12">
+                <div class="card recent-sales overflow-auto">
+                    <div class="card-body mt-4">
+                        <table class="table table-borderless datatable">
+                            <thead>
+                                <tr>
+                                    <th class="col-1 text-center">ID</th>
+                                    <th class="col-2 text-center">Ứng viên</th>
+                                    <th class="col-2 text-center">Tin tuyển dụng</th>
+                                    <th class="col-2 text-center">Công ty</th>
+                                    <th class="col-1 text-center">Email</th>
+                                    <th class="col-1 text-center">SĐT</th>
+                                    <th class="col-1 text-center">Trạng thái</th>
+                                    <th class="col-1 text-center">Ngày nộp</th>
+                                    <th class="col-1 text-center">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var item in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center" scope="row">@item.Id</td>
+                                        <td class="text-left" scope="row">
+                                            @(item.TaiKhoan?.HoTen ?? item.HoTen ?? "-")
+                                        </td>
+                                        <td class="text-left" scope="row">
+                                            <small>@(item.TinTuyenDung?.TieuDe ?? "-")</small>
+                                        </td>
+                                        <td class="text-left" scope="row">
+                                            <small>@(item.TinTuyenDung?.NhaTuyenDung?.TenCongTy ?? "-")</small>
+                                        </td>
+                                        <td class="text-left" scope="row">
+                                            <small>@(item.Email ?? item.TaiKhoan?.Email ?? "-")</small>
+                                        </td>
+                                        <td class="text-center" scope="row">
+                                            <small>@(item.SoDienThoai ?? "-")</small>
+                                        </td>
+                                        <td class="text-center" scope="row">
+                                            @{
+                                                var statusClass = item.TrangThai switch
+                                                {
+                                                    "Đã duyệt" => "bg-success",
+                                                    "Đã từ chối" => "bg-danger",
+                                                    "Đã phỏng vấn" => "bg-info",
+                                                    "Chờ xử lý" => "bg-warning",
+                                                    _ => "bg-secondary"
+                                                };
+                                            }
+                                            <span class="badge @statusClass">@(item.TrangThai ?? "Chờ xử lý")</span>
+                                        </td>
+                                        <td class="text-center" scope="row">
+                                            <small>@item.NgayNop.ToString("dd/MM/yyyy")</small>
+                                        </td>
+                                        <td class="text-center" scope="row">
+                                            <a asp-area="Admin" asp-controller="HoSoUngTuyen" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm" title="Xem chi tiết">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a asp-area="Admin" asp-controller="HoSoUngTuyen" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm" title="Chỉnh sửa">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <a asp-area="Admin" asp-controller="HoSoUngTuyen" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm" title="Xóa">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+

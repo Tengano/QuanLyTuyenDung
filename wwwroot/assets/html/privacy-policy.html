@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Chính Sách Bảo Mật - Quản Lý Tuyển Dụng</title>
+  <meta name="description" content="Chính sách bảo mật của hệ thống quản lý tuyển dụng">
+  <meta name="keywords" content="chính sách, bảo mật, quyền riêng tư">
+
+  <!-- Favicons -->
+  <link href="../img/favicon.png" rel="icon">
+  <link href="../img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <style>
+    :root {
+      --primary-color: #00a19e;
+      --primary-dark: #008885;
+      --secondary-color: #00d4d0;
+      --text-color: #3b5353;
+      --heading-color: #193838;
+      --text-muted: #6c757d;
+      --border-color: #d4e8e7;
+      --background-light: #f0f6f5;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Be Vietnam Pro', 'Roboto', sans-serif;
+      background: var(--background-light);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .header-bg {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      padding: 80px 0 60px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.05)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .back-home {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .back-home:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateX(-5px);
+      color: white;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header-content {
+      text-align: center;
+    }
+
+    .header-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      margin: 0 auto 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-content h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .header-content p {
+      font-size: 18px;
+      opacity: 0.95;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .last-updated {
+      margin-top: 20px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .content-section {
+      background: white;
+      margin: -30px auto 40px;
+      padding: 50px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+
+    .section-heading {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--heading-color);
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid var(--primary-color);
+      display: inline-block;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--heading-color);
+      margin-top: 35px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title i {
+      color: var(--primary-color);
+      font-size: 24px;
+    }
+
+    .section-content p {
+      margin-bottom: 15px;
+      text-align: justify;
+      line-height: 1.8;
+    }
+
+    .section-content ul, .section-content ol {
+      margin: 15px 0 15px 25px;
+      line-height: 1.8;
+    }
+
+    .section-content li {
+      margin-bottom: 10px;
+      padding-left: 5px;
+    }
+
+    .highlight-box {
+      background: var(--background-light);
+      border-left: 4px solid var(--primary-color);
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 8px;
+    }
+
+    .highlight-box h4 {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-card {
+      background: white;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      transition: all 0.3s ease;
+    }
+
+    .info-card:hover {
+      border-color: var(--primary-color);
+      box-shadow: 0 5px 15px rgba(0, 161, 158, 0.1);
+    }
+
+    .info-card h4 {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .info-card i {
+      font-size: 24px;
+    }
+
+    .contact-box {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .contact-box h3 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .contact-box p {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .contact-box a {
+      color: white;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+
+    .footer {
+      background: white;
+      padding: 30px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-color);
+      margin-top: 40px;
+    }
+
+    .footer p {
+      margin: 0;
+      color: var(--text-muted);
+    }
+
+    .footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .header-bg {
+        padding: 60px 0 40px;
+      }
+
+      .header-content h1 {
+        font-size: 32px;
+      }
+
+      .content-section {
+        padding: 30px 20px;
+        margin: -20px 15px 30px;
+      }
+
+      .section-heading {
+        font-size: 24px;
+      }
+
+      .section-title {
+        font-size: 20px;
+      }
+
+      .back-home {
+        position: static;
+        margin-bottom: 20px;
+      }
+    }
+
+    .toc {
+      background: var(--background-light);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    .toc h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--heading-color);
+      margin-bottom: 15px;
+    }
+
+    .toc ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .toc li {
+      margin-bottom: 8px;
+    }
+
+    .toc a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .toc a:hover {
+      padding-left: 10px;
+      font-weight: 500;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    .data-table th, .data-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .data-table th {
+      background: var(--background-light);
+      color: var(--heading-color);
+      font-weight: 600;
+    }
+
+    .data-table tr:hover {
+      background: var(--background-light);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <div class="header-bg">
+    <a href="../../" class="back-home">
+      <i class="bi bi-arrow-left"></i>
+      <span>Về Trang Chủ</span>
+    </a>
+    
+    <div class="container">
+      <div class="header-content" data-aos="fade-up">
+        <div class="header-icon">
+          <i class="bi bi-shield-lock"></i>
+        </div>
+        <h1>Chính Sách Bảo Mật</h1>
+        <p>Chúng tôi cam kết bảo vệ quyền riêng tư và thông tin cá nhân của bạn</p>
+        <div class="last-updated">
+          <i class="bi bi-calendar-check"></i> Cập nhật lần cuối: Tháng 11, 2025
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="content-section" data-aos="fade-up" data-aos-delay="100">
+      
+      <!-- Table of Contents -->
+      <div class="toc">
+        <h3><i class="bi bi-list-ul"></i> Mục lục</h3>
+        <ul>
+          <li><a href="#gioi-thieu"><i class="bi bi-chevron-right"></i> 1. Giới thiệu</a></li>
+          <li><a href="#thu-thap"><i class="bi bi-chevron-right"></i> 2. Thông tin chúng tôi thu thập</a></li>
+          <li><a href="#su-dung"><i class="bi bi-chevron-right"></i> 3. Cách sử dụng thông tin</a></li>
+          <li><a href="#chia-se"><i class="bi bi-chevron-right"></i> 4. Chia sẻ thông tin</a></li>
+          <li><a href="#bao-ve"><i class="bi bi-chevron-right"></i> 5. Bảo vệ thông tin</a></li>
+          <li><a href="#cookies"><i class="bi bi-chevron-right"></i> 6. Cookies và công nghệ theo dõi</a></li>
+          <li><a href="#quyen-loi"><i class="bi bi-chevron-right"></i> 7. Quyền lợi của bạn</a></li>
+          <li><a href="#luu-tru"><i class="bi bi-chevron-right"></i> 8. Lưu trữ dữ liệu</a></li>
+          <li><a href="#tre-em"><i class="bi bi-chevron-right"></i> 9. Quyền riêng tư trẻ em</a></li>
+          <li><a href="#thay-doi"><i class="bi bi-chevron-right"></i> 10. Thay đổi chính sách</a></li>
+          <li><a href="#lien-he"><i class="bi bi-chevron-right"></i> 11. Liên hệ</a></li>
+        </ul>
+      </div>
+
+      <!-- Content Sections -->
+      <div class="section-content">
+        <h2 class="section-heading" id="gioi-thieu">Chính Sách Bảo Mật Thông Tin</h2>
+
+        <section id="gioi-thieu">
+          <h3 class="section-title">
+            <i class="bi bi-1-circle-fill"></i>
+            Giới thiệu
+          </h3>
+          <p>
+            Chào mừng bạn đến với Chính sách Bảo mật của Hệ thống Quản Lý Tuyển Dụng. Chúng tôi hiểu rằng quyền riêng tư 
+            của bạn là vô cùng quan trọng, và chúng tôi cam kết bảo vệ thông tin cá nhân mà bạn chia sẻ với chúng tôi.
+          </p>
+          <p>
+            Chính sách này giải thích cách chúng tôi thu thập, sử dụng, lưu trữ và bảo vệ thông tin của bạn khi bạn 
+            sử dụng dịch vụ của chúng tôi. Vui lòng đọc kỹ để hiểu rõ các quyền và trách nhiệm của bạn.
+          </p>
+
+          <div class="highlight-box">
+            <h4><i class="bi bi-shield-check"></i> Cam kết của chúng tôi</h4>
+            <p>
+              Chúng tôi cam kết tuân thủ các quy định về bảo vệ dữ liệu cá nhân và luật quyền riêng tư hiện hành, 
+              bao gồm Nghị định 13/2023/NĐ-CP về Bảo vệ dữ liệu cá nhân của Việt Nam.
+            </p>
+          </div>
+        </section>
+
+        <section id="thu-thap">
+          <h3 class="section-title">
+            <i class="bi bi-2-circle-fill"></i>
+            Thông tin Chúng tôi Thu thập
+          </h3>
+          
+          <p>Chúng tôi thu thập các loại thông tin sau:</p>
+
+          <div class="info-card">
+            <h4><i class="bi bi-person-badge"></i> Thông tin cá nhân</h4>
+            <ul>
+              <li><strong>Thông tin tài khoản:</strong> Họ tên, email, số điện thoại, mật khẩu (được mã hóa)</li>
+              <li><strong>Hồ sơ ứng viên:</strong> CV, học vấn, kinh nghiệm làm việc, kỹ năng, chứng chỉ</li>
+              <li><strong>Thông tin doanh nghiệp:</strong> Tên công ty, mã số thuế, địa chỉ, người đại diện</li>
+              <li><strong>Thông tin liên lạc:</strong> Địa chỉ, thành phố, quốc gia</li>
+            </ul>
+          </div>
+
+          <div class="info-card">
+            <h4><i class="bi bi-people"></i> Thông tin từ bên thứ ba</h4>
+            <ul>
+              <li>Thông tin từ các mạng xã hội (nếu bạn đăng nhập qua Facebook, Google)</li>
+              <li>Dữ liệu xác minh từ các dịch vụ xác thực</li>
+              <li>Thông tin công khai từ các nguồn hợp pháp</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="su-dung">
+          <h3 class="section-title">
+            <i class="bi bi-3-circle-fill"></i>
+            Cách Sử dụng Thông tin
+          </h3>
+          <p>Chúng tôi sử dụng thông tin của bạn cho các mục đích sau:</p>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Mục đích</th>
+                <th>Chi tiết</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Cung cấp dịch vụ</strong></td>
+                <td>Tạo và quản lý tài khoản, xử lý đơn ứng tuyển, đăng tin tuyển dụng</td>
+              </tr>
+              <tr>
+                <td><strong>Cải thiện dịch vụ</strong></td>
+                <td>Phân tích hành vi người dùng, tối ưu hóa trải nghiệm, phát triển tính năng mới</td>
+              </tr>
+              <tr>
+                <td><strong>Liên lạc</strong></td>
+                <td>Gửi thông báo, email quan trọng, hỗ trợ khách hàng</td>
+              </tr>
+              <tr>
+                <td><strong>Bảo mật</strong></td>
+                <td>Ngăn chặn gian lận, bảo vệ hệ thống<td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="chia-se">
+          <h3 class="section-title">
+            <i class="bi bi-4-circle-fill"></i>
+            Chia sẻ Thông tin
+          </h3>
+          <p>Chúng tôi có thể chia sẻ thông tin của bạn trong các trường hợp sau:</p>
+
+          <ul>
+            <li><strong>Với nhà tuyển dụng:</strong> Khi bạn ứng tuyển, thông tin CV và hồ sơ của bạn sẽ được gửi đến nhà tuyển dụng liên quan</li>
+            <li><strong>Với ứng viên:</strong> Nhà tuyển dụng có thể xem hồ sơ công khai của ứng viên</li>
+            <li><strong>Bảo vệ quyền lợi:</strong> Để bảo vệ quyền, tài sản hoặc an toàn của chúng tôi và người dùng</li>
+          </ul>
+
+          <div class="highlight-box">
+            <h4><i class="bi bi-exclamation-triangle"></i> Lưu ý quan trọng</h4>
+            <p>
+              Chúng tôi KHÔNG bán hoặc cho thuê thông tin cá nhân của bạn cho bên thứ ba vì mục đích thương mại. 
+              Tất cả các đối tác của chúng tôi phải tuân thủ các tiêu chuẩn bảo mật nghiêm ngặt.
+            </p>
+          </div>
+        </section>
+
+        <section id="bao-ve">
+          <h3 class="section-title">
+            <i class="bi bi-5-circle-fill"></i>
+            Bảo vệ Thông tin
+          </h3>
+          <p>Chúng tôi áp dụng nhiều biện pháp bảo mật để bảo vệ thông tin của bạn:</p>
+
+          <div class="info-card">
+            <h4><i class="bi bi-lock-fill"></i> Biện pháp kỹ thuật</h4>
+            <ul>
+              <li><strong>Mã hóa SSL/TLS:</strong> Tất cả dữ liệu truyền tải được mã hóa</li>
+              <li><strong>Mã hóa dữ liệu:</strong> Thông tin nhạy cảm được mã hóa khi lưu trữ</li>
+              <li><strong>Tường lửa:</strong> Hệ thống tường lửa bảo vệ máy chủ</li>
+              <li><strong>Backup định kỳ:</strong> Sao lưu dữ liệu thường xuyên</li>
+              <li><strong>Giám sát 24/7:</strong> Theo dõi và phát hiện xâm nhập liên tục</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="cookies">
+          <h3 class="section-title">
+            <i class="bi bi-6-circle-fill"></i>
+            Cookies và Công nghệ Theo dõi
+          </h3>
+          <p>Chúng tôi sử dụng cookies và các công nghệ tương tự để:</p>
+          <ul>
+            <li>Ghi nhớ thông tin đăng nhập và tùy chọn của bạn</li>
+            <li>Phân tích cách bạn sử dụng website</li>
+            <li>Cá nhân hóa trải nghiệm và nội dung</li>
+            <li>Bảo mật và ngăn chặn gian lận</li>
+          </ul>
+          <p>Bạn có thể quản lý cookies thông qua cài đặt trình duyệt của mình.</p>
+        </section>
+
+        <section id="quyen-loi">
+          <h3 class="section-title">
+            <i class="bi bi-7-circle-fill"></i>
+            Quyền lợi của Bạn
+          </h3>
+          <p>Bạn có các quyền sau đối với dữ liệu cá nhân của mình:</p>
+
+          <div class="info-card">
+            <h4><i class="bi bi-eye-fill"></i> Quyền truy cập</h4>
+            <p>Bạn có quyền yêu cầu bản sao dữ liệu cá nhân mà chúng tôi lưu trữ về bạn.</p>
+          </div>
+
+          <div class="info-card">
+            <h4><i class="bi bi-pencil-square"></i> Quyền chỉnh sửa</h4>
+            <p>Bạn có thể cập nhật, sửa đổi thông tin cá nhân của mình bất cứ lúc nào.</p>
+          </div>
+
+          <div class="info-card">
+            <h4><i class="bi bi-trash"></i> Quyền xóa</h4>
+            <p>Bạn có quyền yêu cầu xóa dữ liệu cá nhân của mình trong các trường hợp nhất định.</p>
+          </div>
+
+          <div class="info-card">
+            <h4><i class="bi bi-file-earmark-arrow-down"></i> Quyền chuyển dữ liệu</h4>
+            <p>Bạn có quyền nhận dữ liệu của mình ở định dạng có cấu trúc, thông dụng.</p>
+          </div>
+
+          <p>Để thực hiện các quyền trên, vui lòng liên hệ với chúng tôi qua thông tin bên dưới.</p>
+        </section>
+
+        <section id="luu-tru">
+          <h3 class="section-title">
+            <i class="bi bi-8-circle-fill"></i>
+            Lưu trữ Dữ liệu
+          </h3>
+          <p>
+            Chúng tôi lưu trữ thông tin cá nhân của bạn trong thời gian cần thiết để:
+          </p>
+          <ul>
+            <li>Cung cấp dịch vụ cho bạn</li>
+            <li>Tuân thủ các nghĩa vụ pháp lý</li>
+            <li>Giải quyết tranh chấp và thực thi thỏa thuận</li>
+          </ul>
+
+          <p><strong>Thời gian lưu trữ cụ thể:</strong></p>
+          <ul>
+            <li><strong>Tài khoản đang hoạt động:</strong> Trong suốt thời gian bạn sử dụng dịch vụ</li>
+            <li><strong>Tài khoản đã đóng:</strong> Tối đa 12 tháng sau khi đóng tài khoản</li>
+          </ul>
+
+          <p>
+            Sau thời gian lưu trữ, dữ liệu sẽ được xóa vĩnh viễn hoặc ẩn danh hóa một cách an toàn.
+          </p>
+        </section>
+
+        <section id="tre-em">
+          <h3 class="section-title">
+            <i class="bi bi-9-circle-fill"></i>
+            Quyền Riêng tư Trẻ em
+          </h3>
+          <p>
+            Dịch vụ của chúng tôi không dành cho người dưới 18 tuổi. Chúng tôi không cố ý thu thập thông tin 
+            cá nhân từ trẻ em. Nếu bạn là phụ huynh hoặc người giám hộ và nhận thấy con bạn đã cung cấp 
+            thông tin cá nhân cho chúng tôi, vui lòng liên hệ để chúng tôi xóa thông tin đó.
+          </p>
+        </section>
+
+        <section id="thay-doi">
+          <h3 class="section-title">
+            <i class="bi bi-arrow-repeat"></i>
+            Thay đổi Chính sách Bảo mật
+          </h3>
+          <p>
+            Chúng tôi có thể cập nhật Chính sách Bảo mật này theo thời gian. Khi có thay đổi quan trọng:
+          </p>
+          <ul>
+            <li>Chúng tôi sẽ thông báo qua email hoặc thông báo nổi bật trên website</li>
+            <li>Ngày "Cập nhật lần cuối" ở đầu trang sẽ được cập nhật</li>
+            <li>Chúng tôi khuyến khích bạn xem lại chính sách này định kỳ</li>
+          </ul>
+
+          <p>
+            Việc bạn tiếp tục sử dụng dịch vụ sau khi thay đổi có hiệu lực đồng nghĩa với việc 
+            bạn chấp nhận chính sách mới.
+          </p>
+        </section>
+
+        <section id="lien-he">
+          <h3 class="section-title">
+            <i class="bi bi-envelope-at"></i>
+            Liên hệ với Chúng tôi
+          </h3>
+          <p>
+            Nếu bạn có bất kỳ câu hỏi, thắc mắc hoặc yêu cầu nào về Chính sách Bảo mật này hoặc 
+            cách chúng tôi xử lý dữ liệu cá nhân của bạn, vui lòng liên hệ:
+          </p>
+        </section>
+
+        <!-- Contact Box -->
+        <div class="contact-box">
+          <h3><i class="bi bi-headset"></i> Bộ phận Bảo mật Thông tin</h3>
+          <p><i class="bi bi-geo-alt-fill"></i> Địa chỉ: 120 Yên Lãng, Thanh Xuân, Hà Nội</p>
+          <p><i class="bi bi-telephone-fill"></i> Điện thoại: <a href="tel:+8436363636">+84 36 36 36 36</a></p>
+          <p><i class="bi bi-envelope-fill"></i> Email: <a href="mailto:privacy@doily.com">privacy@doily.com</a></p>
+          <p><i class="bi bi-shield-check"></i> Chuyên viên Bảo vệ Dữ liệu: <a href="mailto:dpo@doily.com">dpo@doily.com</a></p>
+          <p><i class="bi bi-clock-fill"></i> Giờ làm việc: 8:00 - 17:00 (Thứ 2 - Thứ 6)</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="container">
+      <p>&copy; 2025 Hệ thống Quản Lý Tuyển Dụng. All rights reserved.</p>
+      <p>
+        <a href="terms-of-service.html">Điều khoản Dịch vụ</a> | 
+        <a href="privacy-policy.html">Chính sách Bảo mật</a> | 
+        <a href="../../">Trang chủ</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Vendor JS Files -->
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../vendor/aos/aos.js"></script>
+
+  <!-- Custom JS -->
+  <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 800,
+      once: true,
+      offset: 100
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
+
+
